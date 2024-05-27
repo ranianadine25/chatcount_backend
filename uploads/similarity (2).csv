@@ -1,0 +1,72 @@
+;
+;
+Input Initial (phrase naturelle);Input Reformulé (phrase reformatée) - pattern de questions standards
+Quel est le montant de ma xxx1 ? ;Quel est le montant de xxx1 ?
+Combien coûte ma xxx1 ? ;Quel est le montant de xxx1 ?
+Quelle est la somme de xxx1 ? ;Quel est le montant de xxx1 ?
+A quel montant s'élève xxx1 ? ;Quel est le montant de xxx1 ?
+Combien représente xxx1 par rapport à xxx2 ? ;Quel est le montant de xxx1 par rapport au montant de xxx2 ?
+Est-ce que xxx1 constitue une grande partie de xxx2 ? ;Quel est le montant de xxx1 par rapport au montant de xxx2 ? + appréciation
+Quelle part de xxx1 va à xxx2 ? ;Quel est le montant de xxx1 par rapport au montant de xxx2 ?
+Quel est le poids de xxx1 dans mon entreprise par rapport à xxx2 ? ;Quel est le montant de xxx1 par rapport au montant de xxx2 ?
+Peux-tu me dire le rapport entre xxx1 et xxx2 ? ;Quel est le montant de xxx1 par rapport au montant de xxx2 ?
+Quel est le montant de mon xxx1 et de mon xxx2 ? ;Quel est le montant de xxx1 et le montant de xxx2 ?
+Combien coûte mon xxx1 et mon xxx2 ? ;Quel est le montant de xxx1 et le montant de xxx2 ?
+Quelle est la somme de xxx1 et xxx2 ? ;Quel est le montant de xxx1 et le montant de xxx2 ?
+A quel montant s'élève xxx1 et xxx2 ? ;Quel est le montant de xxx1 et le montant de xxx2 ?
+Quel est le montant de mon xxx1 sans compter xxx2 ? ;Quel est le montant de xxx1 hors xxx2 ?
+Quelle est la valeur de mes xxx1 sans les xxx2 ? ;Quel est le montant de xxx1 hors xxx2 ?
+Peux-tu me dire mes xxx1 avant les xxx2 ? ;Quel est le montant de xxx1 hors xxx2 ? Peux-tu ?
+Comment mesurer xxxx1 sans inclure xxx2 ? ;Quel est le montant de xxx1 hors xxx2 ? + Méthode
+Comment déterminer xxx1 avant xxx2 ? ;Quel est le montant de xxx1 hors xxx2 ? + Méthode
+J'aimerais savoir le total combiné de mon xxx1 et de xxx2. ;Quel est le montant de xxx1 plus le montant de xxx2 ?
+Peux-tu additionner mon xxx1 et mes xxx2 ? ;Quel est le montant de xxx1 plus le montant de xxx2 ? Peux-tu ?
+Comment obtenir le total de xxx1 avec xxx2 ? ;Quel est le montant de xxx1 plus le montant de xxx2 ? + Méthode
+Quelle est la somme de mon xxx1 et de ma xxx2 ? ;Quel est le montant de xxx1 plus le montant de xxx2 ?
+Comment puis-je avoir la somme de mon xxx1 et de mon xxx2 ? ;Quel est le montant de xxx1 plus le montant de xxx2 ? + Méthode
+Peux-tu comparer mon xxx1 de mmm1 avec celui de mmm2 ? ;Quel est le montant de xxx1 en mmm1 versus le montant de xxx1 en mmm2 ? Peux-tu ?
+Comment puis-je savoir le xxx1 de mmm1 comparé à celui de mmm2 ? ;Quel est le montant de xxx1 en mmm1 versus le montant de xxx1 en mmm2 ? + Méthode
+Je veux connaître le xxx1 de mmm1 et le comparer à celui de mmm2. ;Quel est le montant de xxx1 en mmm1 versus le montant de xxx1 en mmm2 ?
+Quelle est la comparaison de xxx1 entre mmm1 et mmm2 ? ;Quel est le montant de xxx1 en mmm1 versus le montant de xxx1 en mmm2 ?
+J'aimerais analyser mon xxx1 de mmm1 en comparaison à celui de mmm2. ;Quel est le montant de xxx1 en mmm1 versus le montant de xxx1 en mmm2 ?
+Quel est mon xxx1 par mois ? ;Quel est le montant de xxx1 par mois ?
+Peux-tu détailler mes xxx1 mensuelles ? ;Quel est le montant de xxx1 par mois ? Peux-tu ?
+Quel est le total de xxx1 chaque mois ? ;Quel est le montant de xxx1 par mois ?
+Comment déterminer le montant de xxx1 chaque mois ? ;Quel est le montant de xxx1 par mois ? + Méthode
+Est-ce que je peux obtenir un apperçu de mes xxx1 mensuelles ? ;Quel est le montant de xxx1 par mois ? Est-ce que ?
+Peux-tu me lister tout mes xxx1 actuels ? ;Quel est le détail des xxx1 ? Peux-tu ?
+Comment puis-je voir la liste complète de mes xxx1 ? ;Quel est le détail des xxx1 ? + Méthode
+Je veux connaître tous les détails sur mes xxx1 . ;Quel est le détail des xxx1 ?
+Quels sont les xxx1 inclus dans mon réseau d'approvisionnement ? ;Quel est le détail des xxx1 ?
+Peux-tu afficher une répartition détaillée de mes xxx1 ? ;Quel est le détail des xxx1 ? Peux-tu ?
+Quand ai-je effectué mes versements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ?
+Comment trouver les dates auxquelles j'ai payé xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? + Méthode
+Peux-tu me fournir les dates exactes de mes paiements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? Peux-tu ?
+Comment identifier les dates de mes paiements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? + Méthode
+Je cherche à savoir quand j'ai fait mes paiements à xxx1 . ;Quand est-ce que j'ai payé xxx1 ?
+Quand ai-je effectué mon dernier versement à xxx1 ? ;Quel est le dernier paiement xxx1 ?
+Comment puis-je savoir quel a été mon dernier paiement à xxx1 ? ;Quel est le dernier paiement xxx1 ? + Méthode
+Peux-tu m'indiquer le dernier enregistrement de paiement à xxx1 ? ;Quel est le dernier paiement xxx1 ?
+Est-ce que je peux avoir la date de mon dernier virement à xxx1 ? ;Quel est le dernier paiement xxx1 ? Est-ce que ?
+Peux-tu m'afficher le dernier paiement que j'ai réalisé à xxx1 ? ;Quel est le dernier paiement xxx1 ? Peux-tu ?
+Peux-tu me montrer les xxx1 les plus récentes ? ;Quelles sont les dernières xxx1 ? Peux-tu ?
+J'aimerais savoir quelles ont été les dernières xxx1 ? ;Quelles sont les dernières xxx1 ?
+Quelles sont les dernières xxx1 que nous avons effectuées ? ;Quelles sont les dernières xxx1 ?
+Montre-moi les dernières xxx1 . ;Quelles sont les dernières xxx1 ?
+Quels sont les derniers xxx1 que nous avons enregistrés ? ;Quelles sont les dernières xxx1 ?
+Peux-tu m'indiquer quels ont été les derniers xxx1 jusqu'au quinzième ? ;Quels sont les 15 derniers xxx1 ? Peux-tu ?
+Montre-moi les quinze derniers xxx1 que j'ai réalisés . ;Quels sont les 15 derniers xxx1 ?
+Quels xxx1 ai-je effectués en dernier, jusqu'au nombre de quinze ? ;Quels sont les 15 derniers xxx1 ?
+Comment puis-je voir les xxx1 récents jusqu'à quinze ? ;Quels sont les 15 derniers xxx1 ? + Méthode
+J'aimerais consulter les derniers xxx1, jusqu'à quinze. ;Quels sont les 15 derniers xxx1 ?
+Peux-tu me dire combien j'ai payé à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ? Peux-tu ?
+Combien ai-je versé à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?
+Je voudrais connaître le montant de xxx1 du dernier mois ? ;Quel est le montant de xxx1 du dernier mois ?
+Quel montant a été débité pour xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?
+Peux-tu m'informer sur le montant total dû à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?Peux-tu ?
+Je voudrais un tableau présentant xxx1, xxx2 et xxx3 . ;Fais moi un tableau avec 3 colonnes : xxx1, xxx2, ,xxx3
+Peux-tu me créer un tableau avec ces informations : xxx1, xxx2 et xxx3 ? ;Fais moi un tableau avec 3 colonnes : xxx1, xxx2, ,xxx3 Peux-tu ?
+J'ai besoin d'un tableau où tu listeras xxx1, xxx2 puis xxx3 . ;Fais moi un tableau avec 3 colonnes : xxx1, xxx2, ,xxx3
+Est-il possible d'avoir un tableau récapitulant d'abor xxx1 puis xxx2 et xxx3 ? ;Fais moi un tableau avec 3 colonnes : xxx1, xxx2, ,xxx3 Est-il possible ?
+Peux-tu me montrer un tableau incluant xxx1, xxx2 et xxx3 séparément ? ;Fais moi un tableau avec 3 colonnes : xxx1, xxx2, ,xxx3 Peux-tu ?
+

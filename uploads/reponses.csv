@@ -1,0 +1,115 @@
+;;;;;;;;
+;;;;;;;;
+Input Reformulé (phrase reformatée) - pattern de questions standards;Output Reformulé;;;;;;;
+Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 ?;Le montant de vos xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 ? + Méthode;Le montant de vos xxx1 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 ?;Le montant de votre xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 hors xxx2 ?;Le montant de votre xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 hors xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 hors xxx2 ? + Méthode;Le montant de votre xxx1 hors xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 hors xxx2 ?;Le montant de vos xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 hors xxx2 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 hors xxx2 ? + Méthode;Le montant de vos xxx1 hors xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 hors xxx2 ?;Le montant de votre xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 hors xxx2 ? Peux-tu ?; Oui je peux. Le montant de votre xxx1 hors xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 hors xxx2 ? + Méthode;Le montant de votre xxx1 hors xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 par mois ?;Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 par mois ? + Méthode;Le montant de votre xxx1 par mois est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 par mois ? Est-ce que ?;Oui. Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 par mois ?; Le montant de vos xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 par mois ? + Méthode;Le montant de vos xxx1 par mois est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 mensuelles ? Est-ce que ?;Oui. Le montant de vos xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 par mois ?;Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 par mois ? + Méthode;Le montant de votre xxx1 par mois est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 par mois ? Est-ce que ?;Oui. Le montant de votre xxx1 par mois est de vvv1 euros;;;;;;;
+Quel est le détail de mes xxx1 ?;Voici le détail de vos xxx1;;;;;;;
+Quel est le détail de mes xxx1 ? Peux-tu ?;Oui je peux. Voici le détail de vos xxx1;;;;;;;
+Quel est le détail de mes xxx1 ? + Méthode;Voici le détail de vos xxx1. Pour cela il faut...;;;;;;;
+Quel est le détail de ma xxx1 ?;Voici le détail de votre xxx1;;;;;;;
+Quel est le détail de ma xxx1 ? Peux-tu ?;Oui je peux. Voici le détail de votre xxx1;;;;;;;
+Quel est le détail de ma xxx1 ? + Méthode;Voici le détail de votre xxx1. Pour cela il faut...;;;;;;;
+Quel est le détail de mon xxx1 ?;Voici le détail de votre xxx1;;;;;;;
+Quel est le détail de mon xxx1 ? Peux-tu ?;Oui je peux. Voici le détail de votre xxx1;;;;;;;
+Quel est le détail de mon xxx1 ? + Méthode;Voici le détail de votre xxx1. Pour cela il faut...;;;;;;;
+Fais moi un tableau avec 3 colonnes : xxx1 xxx2 et xxx3;Voici un tableau en 3 colonnes avec xxx1 xxx2 et xxx3;;;;;;;
+Fais moi un tableau avec 3 colonnes : xxx1 xxx2 et xxx3 Peux-tu ?;Oui je peux. Voici un tableau en 3 colonnes avec xxx1 xxx2 et xxx3;;;;;;;
+Fais moi un tableau avec 3 colonnes : xxx1 xxx2 et xxx3 Est-il possible ?;Oui. Voici un tableau en 3 colonnes avec xxx1 xxx2 et xxx3;;;;;;;
+Quelles sont les dernières xxx1 ?;Les dernières xxx1 sont...;;;;;;;
+Quelles sont les dernières xxx1 ? Peux-tu ?;Oui je peux. Les dernières xxx1 sont...;;;;;;;
+Quelles sont les dernières xxx1 ? + Méthode;Les dernières xxx1 sont... Pour cela il faut...;;;;;;;
+Quel est le dernier xxx1 ?;Le dernier xxx1 est...;;;;;;;
+Quel est le dernier xxx1 ? Peux-tu ?;Oui je peux. Le dernier xxx1 est...;;;;;;;
+Quel est le dernier xxx1 ? + Méthode;Le dernier xxx1 est... Pour cela il faut...;;;;;;;
+Quels sont les derniers xxx1 ?;Les derniers xxx1 sont...;;;;;;;
+Quels sont les derniers xxx1 ? Peux-tu ?;Oui je peux. Les derniers xxx1 sont...;;;;;;;
+Quels sont les derniers xxx1 ? + Méthode;Les derniers xxx1 sont... Pour cela il faut...;;;;;;;
+Quelle est la dernière xxx1 ?;La dernière xxx1 est...;;;;;;;
+Quelle est la dernière xxx1 ? Peux-tu ?;Oui je peux. La dernière xxx1 est...;;;;;;;
+Quelle est la dernière xxx1 ? + Méthode;La dernière xxx1 est... Pour cela il faut...;;;;;;;
+Quelles sont les xxx1 de fff1 ? Peux-tu ?;Oui je peux. Le montant des xxx1 de fff1 est de vvv1 euros;;;;;;;
+Quelles sont les xxx1 de fff1 ? Est-il possible ?;Oui. Le montant des xxx1 de fff1 est de vvv1 euros;;;;;;;
+Quelles sont les xxx1 de fff1 ?;Le montant des xxx1 de fff1 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 par rapport au montant de mon xxx2 ?;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de mon xxx1 par rapport au montant de mon xxx2 ? + appréciation;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros. Cela veut dire que...;;;;;;;
+Quel est le montant de mon xxx1 par rapport au montant de  mon xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de mon xxx1 par rapport au montant de mon xxx2 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 par rapport au montant de ma xxx2 ?;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 par rapport au montant de ma xxx2 ? + appréciation;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros. Cela veut dire que...;;;;;;;
+Quel est le montant de ma xxx1 par rapport au montant de ma xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 par rapport au montant de ma xxx2 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros par rapport au montant de votre xxx2 qui est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 par rapport au montant de mes xxx2 ?;Le montant de vos xxx1 est de vvv1 euros par rapport au montant de vos xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 par rapport au montant de mes xxx2 ? + appréciation;Le montant de vos xxx1 est de vvv1 euros par rapport au montant de vos xxx2 qui est de vvv2 euros. Cela veut dire que...;;;;;;;
+Quel est le montant de mes xxx1 par rapport au montant de mes xxx2 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 est de vvv1 euros par rapport au montant de vos xxx2 qui est de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 par rapport au montant de mes xxx2 ? + Méthode;Le montant de vos xxx1 est de vvv1 euros par rapport au montant de vos xxx2 qui est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 et le montant de mon xxx2 ?;Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de mon xxx1 et le montant de mon xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de mon xxx1 et le montant de mon xxx2 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 et le montant de ma xxx2 ?;Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 et le montant de ma xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 et le montant de ma xxx2 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros et le montant de votre xxx2 est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 et le montant de mes xxx2 ?;Le montant de vos xxx1 est de vvv1 euros et le montant de vos xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 et le montant de mes xxx2 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 est de vvv1 euros et le montant de vos xxx2 est de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 et le montant de mes xxx2 ? + Méthode;Le montant de vos xxx1 est de vvv1 euros et le montant de vos xxx2 est de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 plus le montant de mon xxx2 ?;Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 plus le montant de mon xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mon xxx1 plus le montant de mon xxx2 ? + Méthode;Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 plus le montant de mes xxx2 ?;Le montant de vos xxx1 plus le montant de vos xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 plus le montant de mes xxx2 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 plus le montant de vos xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de mes xxx1 plus le montant de mes xxx2 ? + Méthode;Le montant de vos xxx1 plus le montant de vos xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 plus le montant de ma xxx2 ?;Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 plus le montant de ma xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros;;;;;;;
+Quel est le montant de ma xxx1 plus le montant de ma xxx2 ? + Méthode;Le montant de votre xxx1 plus le montant de votre xxx2 est de vvv1 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 en mmm1 versus le montant de mon xxx1 en mmm2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quel est le montant de mon xxx1 en mmm1 versus le montant de mon xxx1 en mmm2 ? + Méthode;Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mon xxx1 en mmm1 versus le montant de mon xxx1 en mmm2 ?;Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 en mmm1 versus le montant de ma xxx1 en mmm2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quel est le montant de ma xxx1 en mmm1 versus le montant de ma xxx1 en mmm2 ? + Méthode;Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de ma xxx1 en mmm1 versus le montant de ma xxx1 en mmm2 ?;Le montant de votre xxx1 en mmm1 est de vvv1 euros comparé au montant de votre xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 en mmm1 versus le montant de mes xxx1 en mmm2 ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 en mmm1 est de vvv1 euros comparé au montant de vos xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quel est le montant de mes xxx1 en mmm1 versus le montant de mes xxx1 en mmm2 ? + Méthode;Le montant de vos xxx1 en mmm1 est de vvv1 euros comparé au montant de vos xxx1 en mmm2 de vvv2 euros. Pour cela il faut...;;;;;;;
+Quel est le montant de mes xxx1 en mmm1 versus le montant de mes xxx1 en mmm2 ?;Le montant de vos xxx1 en mmm1 est de vvv1 euros comparé au montant de vos xxx1 en mmm2 de vvv2 euros;;;;;;;
+Quand est-ce que j'ai payé xxx1 ?;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...;;;;;;;
+Quand est-ce que j'ai payé xxx1 ? + Méthode;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...Pour cela il faut...;;;;;;;
+Quand est-ce que j'ai payé xxx1 ? Peux-tu ?;Oui je peux. Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
+Quel est le montant de xxx1 du dernier mois ? Peux-tu ?;Oui je peux. Vous avez payé vvv1 euros à xxx1 le mois dernier;;;;;;;
+Quel est le montant de xxx1 du dernier mois ?;Vous avez payé vvv1 euros à xxx1 le mois dernier;;;;;;;
+Quel est le montant de xxx1 du dernier mois ? + Méthode;Vous avez payé vvv1 euros à xxx1 le mois dernier. Pour cela il faut;;;;;;;
+
+
+
+
+
+
+
+
+
+
