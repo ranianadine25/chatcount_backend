@@ -25,12 +25,14 @@ export const getNotifications = async (req, res) => {
 
 export const markAsRead = async (req, res) => {
     try {
+        console.log("hello notification");
         const senderId = req.params.senderId; 
         const filter = { sender: senderId };
         const update = { seen: true }; 
 
         const updatedNotifications = await Notification.updateMany(filter, update);
-
+console.log("sender",senderId);
+console.log("seen",seen);
         res.status(200).json(updatedNotifications);
     } catch (error) {
         console.error("Failed to update notifications:", error);
