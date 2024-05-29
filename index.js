@@ -151,7 +151,7 @@ io.on("connection", (socket) => {
       fecName = fec.name;
       console.log("fecname", fecName);
 
-      pythonProcess = spawn("python", ["./similarity.py", fecName, "/uploads/"]);
+      pythonProcess = spawn("python", ["./similarity.py", fecName, "uploads/"]);
 
       pythonProcess.stdout.on("data", async (data) => {
         try {
