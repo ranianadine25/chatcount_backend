@@ -2,13 +2,14 @@ import fs from "fs";
 import csvParser from "csv-parser";
 import mongoose from "mongoose";
 import ColumnData from "../Models/mot_clets.js";
-import path from "path";
-import { createObjectCsvWriter } from "csv-writer";
+import path from 'path';
+import { createObjectCsvWriter } from 'csv-writer';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 export async function exportCSVData(req, res) {
   try {
     const csvData = await ColumnData.findOne();
@@ -17,7 +18,13 @@ export async function exportCSVData(req, res) {
       return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
     }
 
-    const filePath = "/exports/exportedData.csv";
+    const exportDir = path.join(__dirname, 'exports');
+    const filePath = path.join(exportDir, 'exportedData.csv');
+
+    // Create the directory if it does not exist
+    if (!fs.existsSync(exportDir)) {
+      fs.mkdirSync(exportDir, { recursive: true });
+    }
 
     const csvWriter = createObjectCsvWriter({
       path: filePath,
@@ -39,9 +46,7 @@ export async function exportCSVData(req, res) {
     res.download(filePath, "exportedData.csv", (err) => {
       if (err) {
         console.error("Error sending CSV file:", err);
-        res
-          .status(500)
-          .json({ message: "Erreur lors de l'envoi du fichier CSV" });
+        res.status(500).json({ message: "Erreur lors de l'envoi du fichier CSV" });
       } else {
         console.log("CSV file sent successfully");
         try {
@@ -54,11 +59,10 @@ export async function exportCSVData(req, res) {
     });
   } catch (error) {
     console.error("Error exporting CSV data:", error);
-    res
-      .status(500)
-      .json({ message: "Erreur lors de l'exportation des données CSV" });
+    res.status(500).json({ message: "Erreur lors de l'exportation des données CSV" });
   }
 }
+
 export async function importCSVData(req, res) {
   try {
     // Vérifiez si req.body est défini et si fileName est fourni
