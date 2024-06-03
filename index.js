@@ -165,6 +165,13 @@ io.on("connection", (socket) => {
                 .map((entry) => entry.trim());
               return { month, revenue, percentage };
             });
+          } else if (output.includes(",")) {
+            response = output.split("\n").map((line) => {
+              const [month, revenue, percentage] = line
+                .split(",")
+                .map((entry) => entry.trim());
+              return { month, revenue, percentage };
+            });
           } else {
             response = output;
           }

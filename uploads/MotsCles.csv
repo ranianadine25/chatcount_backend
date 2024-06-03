@@ -4,7 +4,7 @@ A-JournalCode;B-JournalLib;C-EcritureNum;D-EcritureDate;E-CompteNum;F-CompteLib;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Stocks;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Tiers;;SUBVENTIONS D'INVESTISSEMENTS;;Stock de matières premières;;;;;;;;;;;;décaissement;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Trésorerie;;;PROVISIONS REGLEMENTEES;;;;;;;;;;;;;encaissements;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;Charges;;PROVISIONS;;Frais d'établissement;;;;;;;;;;;;encaissement;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;Charges;;PROVISIONS;;Frais d'établissement;;;;;;;;;;;;encaissement;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Produits;;EMPRUNTS ET DETTES FINANCIERES;;Frais de recherche et de développement;;;;;;;;;;;;encaissé;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Spéciaux;;DETTES RATTACHEES A DES PARTICIPATIONS;;Concessions et droits similaires;;;;;;;;;;;;payé;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Coûts;;COMPTES DE LIAISON DES ETABLISSEMENTS ET SOCIETES EN PARTICIPATION;;Droit au bail;;;;;;;;;;;;décaissé;;;;;;;;

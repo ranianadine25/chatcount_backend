@@ -205,7 +205,7 @@ export async function updateLabel(req, res) {
 
     existingLabel.label = label;
     await existingLabel.save();
-    await sendMissionNotification("Un nouveau libellé est ajouté avec succès", systemUser, systemUser);
+    await sendMissionNotification("Un nouveau libellé est modifié avec succès", systemUser, systemUser);
 
     res.status(200).json({ message: "Label updated successfully", label });
   } catch (error) {
@@ -218,7 +218,7 @@ export async function updateLabelsFromMapping(req, res) {
   try {
     const mappingEntries = Object.entries(racineLibelle1Mapping);
     const promises = mappingEntries.map(([rootId, label]) => {
-      return Label1.findOneAndUpdate({ rootId }, { label });
+      return label1.findOneAndUpdate({ rootId }, { label });
     });
     await Promise.all(promises);
     res.json({
@@ -351,7 +351,7 @@ export async function insertPredefinedLabels5() {
     }
 
     await labelModel.findByIdAndDelete(labelId);
-    await sendMissionNotification("Un nouveau libellé est ajouté avec succès", systemUser, systemUser);
+    await sendMissionNotification("Le libellé est supprimé avec succès", systemUser, systemUser);
 
     res.status(200).json({ message: "Label supprimé avec succès" });
   } catch (error) {

@@ -17,7 +17,7 @@ export async function exportCSVData(req, res) {
       return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
     }
 
-    const filePath = "exports/exportedData.csv";
+    const filePath = "/exports/exportedData.csv";
 
     const csvWriter = createObjectCsvWriter({
       path: filePath,
