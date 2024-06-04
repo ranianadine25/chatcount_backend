@@ -98,7 +98,7 @@ let isMessageSaved = false;
 
 io.on("connection", (socket) => {
   console.log("Un utilisateur s'est connecté");
-  
+
   socket.on("fetchUserConversation", async (userId) => {
     try {
       const userConversation = await conversation.findOne({ userId });
@@ -120,7 +120,10 @@ io.on("connection", (socket) => {
         isPythonProcessRunning,
       });
     } catch (error) {
-      console.error("Erreur lors de la récupération de la conversation de l'utilisateur:", error);
+      console.error(
+        "Erreur lors de la récupération de la conversation de l'utilisateur:",
+        error
+      );
     }
   });
 
@@ -150,7 +153,7 @@ io.on("connection", (socket) => {
       fecName = fec.name;
       console.log("fecName:", fecName);
 
-      pythonProcess = spawn("python", ["./similarity.py", fecName, "/uploads/"]);
+      pythonProcess = spawn("python", ["./similarity.py", fecName, "uploads/"]);
 
       // Gérer la sortie standard du processus Python
       pythonProcess.stdout.on("data", (data) => {
@@ -182,7 +185,9 @@ io.on("connection", (socket) => {
       const reformulatedText = reformulations.join(" ");
 
       if (!fecName || !pythonProcess) {
-        console.error("Le nom FEC ou le processus Python n'est pas encore initialisé.");
+        console.error(
+          "Le nom FEC ou le processus Python n'est pas encore initialisé."
+        );
         return;
       }
 
@@ -215,7 +220,14 @@ server.listen(port, () => {
   console.log(`Serveur en cours d'exécution sur http://localhost:${port}/`);
 });
 
-async function saveMessageToDatabase(sender, text, conversationId, likes, dislikes, comments) {
+async function saveMessageToDatabase(
+  sender,
+  text,
+  conversationId,
+  likes,
+  dislikes,
+  comments
+) {
   try {
     let conversation = await ConversationModel.findById(conversationId);
 
@@ -228,7 +240,11 @@ async function saveMessageToDatabase(sender, text, conversationId, likes, dislik
 
     const lastMessageIndex = conversation.messages.length - 1;
 
-    if (lastMessageIndex >= 0 && conversation.messages[lastMessageIndex].sender === sender && conversation.messages[lastMessageIndex].text === text) {
+    if (
+      lastMessageIndex >= 0 &&
+      conversation.messages[lastMessageIndex].sender === sender &&
+      conversation.messages[lastMessageIndex].text === text
+    ) {
       console.log("Adding New Comment to Last Message:", text);
       conversation.messages[lastMessageIndex].comments.push(...comments);
     } else {
@@ -250,19 +266,19 @@ async function saveMessageToDatabase(sender, text, conversationId, likes, dislik
 
 function cleanData(data) {
   if (Array.isArray(data)) {
-    return data.map(item => {
+    return data.map((item) => {
       return {
-        month: item.month || '',
-        revenue: item.revenue || '',
-        percentage: item.percentage || ''
+        month: item.month || "",
+        revenue: item.revenue || "",
+        percentage: item.percentage || "",
       };
     });
-  } else if (typeof data === 'object') {
+  } else if (typeof data === "object") {
     return Object.fromEntries(
-      Object.entries(data).map(([key, value]) => [key, value || ''])
+      Object.entries(data).map(([key, value]) => [key, value || ""])
     );
   }
-  return data || '';
+  return data || "";
 }
 
 function handlePythonData(data, socket, conversationId) {
@@ -272,7 +288,9 @@ function handlePythonData(data, socket, conversationId) {
 
     if (output.includes(";")) {
       response = output.split("\n").map((line) => {
-        const [month, revenue, percentage] = line.split(";").map((entry) => entry.trim());
+        const [month, revenue, percentage] = line
+          .split(";")
+          .map((entry) => entry.trim());
         return { month, revenue, percentage };
       });
     } else {
@@ -281,20 +299,27 @@ function handlePythonData(data, socket, conversationId) {
     response = cleanData(response);
 
     // Enregistrement du message dans la base de données
-    saveMessageToDatabase("bot", response, conversationId, 0, 0, []).then(() => {
-      const botMessage = {
-        sender: "bot",
-        text: response,
-        likes: 0,
-        dislikes: 0,
-        comments: [],
-      };
-      socket.emit("message", botMessage);
-    }).catch(error => {
-      console.error("Erreur lors de l'enregistrement du message du bot:", error);
-    });
-
+    saveMessageToDatabase("bot", response, conversationId, 0, 0, [])
+      .then(() => {
+        const botMessage = {
+          sender: "bot",
+          text: response,
+          likes: 0,
+          dislikes: 0,
+          comments: [],
+        };
+        socket.emit("message", botMessage);
+      })
+      .catch((error) => {
+        console.error(
+          "Erreur lors de l'enregistrement du message du bot:",
+          error
+        );
+      });
   } catch (error) {
-    console.error("Erreur lors de la manipulation des données de sortie du processus Python:", error);
+    console.error(
+      "Erreur lors de la manipulation des données de sortie du processus Python:",
+      error
+    );
   }
 }

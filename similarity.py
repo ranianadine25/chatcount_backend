@@ -18,6 +18,8 @@ def load_model():
         print(f"Error loading model: {e}")
         sys.exit(1)
 
+model = load_model()
+
 directory = ''
 if (len(sys.argv) > 2):
     directory = sys.argv [2]
