@@ -92,12 +92,13 @@ app.use("/cegid", cegidRoutes);
 app.use("/", (req, res) => {
   res.send("helloo");
 });
-
 let fecName;
 let pythonProcess;
 let isMessageSaved = false;
+
 io.on("connection", (socket) => {
   console.log("Un utilisateur s'est connecté");
+  
   socket.on("fetchUserConversation", async (userId) => {
     try {
       const userConversation = await conversation.findOne({ userId });
@@ -108,7 +109,6 @@ io.on("connection", (socket) => {
       }
 
       const { _id: conversationId, fecId } = userConversation;
-
       const fec = await FECModel.findById(fecId);
       const fecName = fec ? fec.name : "Nom du FEC introuvable";
 
@@ -120,10 +120,7 @@ io.on("connection", (socket) => {
         isPythonProcessRunning,
       });
     } catch (error) {
-      console.error(
-        "Erreur lors de la récupération de la conversation de l'utilisateur:",
-        error
-      );
+      console.error("Erreur lors de la récupération de la conversation de l'utilisateur:", error);
     }
   });
 
@@ -151,104 +148,19 @@ io.on("connection", (socket) => {
       }
 
       fecName = fec.name;
-      console.log("fecname", fecName);
+      console.log("fecName:", fecName);
 
       pythonProcess = spawn("python", ["./similarity.py", fecName, "/uploads/"]);
 
-      pythonProcess.stdout.on("data", async (data) => {
-        try {
-          const output = data.toString().trim();
-          let response;
-
-          if (output.includes(";")) {
-            response = output.split("\n").map((line) => {
-              const [month, revenue, percentage] = line.split(";").map((entry) => entry.trim());
-              return { month, revenue, percentage };
-            });
-          }  else {
-            response = output;
-          }
-          response = cleanData(response);
-
-          // Enregistrement du message dans la base de données
-          await saveMessageToDatabase(
-            "bot",
-            response,
-            conversationId,
-            0,
-            0,
-            []
-          ); // Vous pouvez définir comment ici comme une chaîne vide car il n'y a pas de commentaire initial
-
-          const botMessage = {
-            sender: "bot",
-            text: response,
-            likes: 0,
-            dislikes: 0,
-            comments: [],
-          };
-
-          socket.emit("message", botMessage);
-
-          socket.on("updateLikesDislikes", async (data) => {
-            const { conversationId, message, likes, dislikes, comments } = data;
-            console.log(
-              `Reçu une demande de mise à jour des likes/dislikes pour la conversation ${conversationId} - Likes: ${likes}, Dislikes: ${dislikes}`
-            );
-
-            try {
-              await ConversationModel.updateOne(
-                { _id: conversationId, "messages._id": message._id },
-                {
-                  $set: {
-                    "messages.$.likes": likes,
-                    "messages.$.dislikes": dislikes,
-                    "messages.$.comments": comments,
-                  },
-                }
-              );
-              console.log(
-                "Likes et Dislikes mis à jour avec succès dans la base de données."
-              );
-
-              await saveMessageToDatabase(
-                "bot",
-                response,
-                conversationId,
-                likes,
-                dislikes,
-                comments
-              );
-              io.to(conversationId).emit("updateLikesDislikes", {
-                likes,
-                dislikes,
-                comments,
-              });
-              console.log(
-                "Broadcast de la mise à jour des likes/dislikes terminé."
-              );
-            } catch (error) {
-              console.error(
-                "Erreur lors de la mise à jour des likes et dislikes:",
-                error
-              );
-            }
-          });
-
-          console.log("Message enregistré :", {
-            sender: "bot",
-            text: response,
-          });
-        } catch (error) {
-          console.error(
-            "Erreur lors de la manipulation des données de sortie du processus Python:",
-            error
-          );
-        }
+      // Gérer la sortie standard du processus Python
+      pythonProcess.stdout.on("data", (data) => {
+        console.log(`stdout: ${data}`);
+        handlePythonData(data, socket, conversationId);
       });
 
+      // Gérer les erreurs du processus Python
       pythonProcess.stderr.on("data", (data) => {
-        console.error(`Erreur de similarity Python : ${data}`);
+        console.error(`stderr: ${data}`);
       });
 
       pythonProcess.on("close", (code) => {
@@ -267,12 +179,10 @@ io.on("connection", (socket) => {
       const reformulations = tokens.map((token) => {
         return token + " s'il vous plaît";
       });
-      const reformulatedText = reformulations.join(" "); // Convertissez les reformulations en une seule chaîne de texte
+      const reformulatedText = reformulations.join(" ");
 
       if (!fecName || !pythonProcess) {
-        console.error(
-          "Le nom FEC ou le processus Python n'est pas encore initialisé."
-        );
+        console.error("Le nom FEC ou le processus Python n'est pas encore initialisé.");
         return;
       }
 
@@ -294,9 +204,9 @@ io.on("connection", (socket) => {
       {
         conversationId: socket.conversationId,
         fecName: fecName,
-        isPythonProcessRunning: !!pythonProcess, // Convertir en booléen pour stocker
+        isPythonProcessRunning: !!pythonProcess,
       },
-      { upsert: true } // Créer un nouveau document si nécessaire
+      { upsert: true }
     );
   });
 });
@@ -304,14 +214,8 @@ io.on("connection", (socket) => {
 server.listen(port, () => {
   console.log(`Serveur en cours d'exécution sur http://localhost:${port}/`);
 });
-async function saveMessageToDatabase(
-  sender,
-  text,
-  conversationId,
-  likes,
-  dislikes,
-  comments // Now an array to store comments
-) {
+
+async function saveMessageToDatabase(sender, text, conversationId, likes, dislikes, comments) {
   try {
     let conversation = await ConversationModel.findById(conversationId);
 
@@ -324,11 +228,7 @@ async function saveMessageToDatabase(
 
     const lastMessageIndex = conversation.messages.length - 1;
 
-    if (
-      lastMessageIndex >= 0 &&
-      conversation.messages[lastMessageIndex].sender === sender &&
-      conversation.messages[lastMessageIndex].text === text
-    ) {
+    if (lastMessageIndex >= 0 && conversation.messages[lastMessageIndex].sender === sender && conversation.messages[lastMessageIndex].text === text) {
       console.log("Adding New Comment to Last Message:", text);
       conversation.messages[lastMessageIndex].comments.push(...comments);
     } else {
@@ -347,6 +247,7 @@ async function saveMessageToDatabase(
     console.error("Erreur lors de l'enregistrement du message:", error);
   }
 }
+
 function cleanData(data) {
   if (Array.isArray(data)) {
     return data.map(item => {
@@ -362,4 +263,38 @@ function cleanData(data) {
     );
   }
   return data || '';
+}
+
+function handlePythonData(data, socket, conversationId) {
+  try {
+    const output = data.toString().trim();
+    let response;
+
+    if (output.includes(";")) {
+      response = output.split("\n").map((line) => {
+        const [month, revenue, percentage] = line.split(";").map((entry) => entry.trim());
+        return { month, revenue, percentage };
+      });
+    } else {
+      response = output;
+    }
+    response = cleanData(response);
+
+    // Enregistrement du message dans la base de données
+    saveMessageToDatabase("bot", response, conversationId, 0, 0, []).then(() => {
+      const botMessage = {
+        sender: "bot",
+        text: response,
+        likes: 0,
+        dislikes: 0,
+        comments: [],
+      };
+      socket.emit("message", botMessage);
+    }).catch(error => {
+      console.error("Erreur lors de l'enregistrement du message du bot:", error);
+    });
+
+  } catch (error) {
+    console.error("Erreur lors de la manipulation des données de sortie du processus Python:", error);
+  }
 }

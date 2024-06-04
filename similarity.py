@@ -8,11 +8,16 @@ from numpy import dot
 from numpy.linalg import norm
 import pickle
 
-try:
-    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-except Exception as e:
-    print(f"Error loading model: {e}")
-    sys.exit(1)
+def load_model():
+    try:
+        print("Loading model...")
+        model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+        print("Model loaded successfully.")
+        return model
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        sys.exit(1)
+
 directory = ''
 if (len(sys.argv) > 2):
     directory = sys.argv [2]
