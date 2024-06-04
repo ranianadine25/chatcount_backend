@@ -19,6 +19,7 @@ import labelRoute from "./Routes/label_route.js";
 import notifRoute from "./Routes/notification_route.js";
 import motCletRoute from "./Routes/motclets_routes.js";
 import patternsRoutes from "./Routes/patterns_routs.js";
+import synonymeRoutes from "./Routes/synonyme_route.js";
 import cegidRoutes from "./Routes/cegid_routes.js";
 const app = express();
 const server = http.createServer(app);
@@ -85,6 +86,7 @@ app.use("/label", labelRoute);
 app.use("/notif", notifRoute);
 app.use("/mots", motCletRoute);
 app.use("/patterns", patternsRoutes);
+app.use("/synonymes", synonymeRoutes);
 app.use("/cegid", cegidRoutes);
 
 app.use("/", (req, res) => {
@@ -151,7 +153,7 @@ io.on("connection", (socket) => {
       fecName = fec.name;
       console.log("fecname", fecName);
 
-      pythonProcess = spawn("python", ["./similarity.py", fecName, "uploads/"]);
+      pythonProcess = spawn("python", ["./similarity.py", fecName, "/uploads/"]);
 
       pythonProcess.stdout.on("data", async (data) => {
         try {
@@ -160,21 +162,13 @@ io.on("connection", (socket) => {
 
           if (output.includes(";")) {
             response = output.split("\n").map((line) => {
-              const [month, revenue, percentage] = line
-                .split(";")
-                .map((entry) => entry.trim());
+              const [month, revenue, percentage] = line.split(";").map((entry) => entry.trim());
               return { month, revenue, percentage };
             });
-          } else if (output.includes(",")) {
-            response = output.split("\n").map((line) => {
-              const [month, revenue, percentage] = line
-                .split(",")
-                .map((entry) => entry.trim());
-              return { month, revenue, percentage };
-            });
-          } else {
+          }  else {
             response = output;
           }
+          response = cleanData(response);
 
           // Enregistrement du message dans la base de données
           await saveMessageToDatabase(
@@ -352,4 +346,20 @@ async function saveMessageToDatabase(
   } catch (error) {
     console.error("Erreur lors de l'enregistrement du message:", error);
   }
+}
+function cleanData(data) {
+  if (Array.isArray(data)) {
+    return data.map(item => {
+      return {
+        month: item.month || '',
+        revenue: item.revenue || '',
+        percentage: item.percentage || ''
+      };
+    });
+  } else if (typeof data === 'object') {
+    return Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [key, value || ''])
+    );
+  }
+  return data || '';
 }

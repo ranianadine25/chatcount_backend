@@ -1,8 +1,10 @@
-Décaissement;Encaissement;banques;Ventes;MASSE SALARIALE;Sécurité sociale;Investissements;Travaux;Fournitures non stockables;Dettes;Associe Boubtane Haytam;Associés – Comptes courants
-Paiement;Encaissé;banque;Vente;Salariés;URSSAF;Immobilisations;Aménagement;energie;dette;Haytam Boubtane;Compte courant
-Paiements;Encaissements;;Chiffre d’affaires;Charges de personnel;;Investis;agencements;eau;dois;Haytam;
-Décaissements;;;Honoraires;;;Investi;;electricite;;;
-Décaissé;;;Honoraire;;;capex;;edf;;;
-payé;;;Prestations;;;;;gaz;;;
-Decaissements;;;Prestation;;;;;consommation electrique;;;
-decaissement;;;;;;;;consommation de gaz;;;
+Décaissement;Encaissement;banques;Ventes;MASSE SALARIALE;Sécurité sociale;Investissements;Travaux;Fournitures non stockables;Dettes;Associe Boubtane Haytam;Associés – Comptes courants;Salaires;Trésorerie;Sécurité sociale;Frais de recherche et de développement;Charges financières;Produits financiers;Dotation aux amortissements;Impôts;Excédent brut d'exploitation;Capacité d'autofinancement;Espèces
+Paiement;Encaissé;banque;Vente;Salariés;URSSAF;Immobilisations;Aménagement;energie;dette;Haytam Boubtane;Compte courant;Revenus;Tréso;Sécu;Frais de R & D;Charges fin;Produits fin;DA;Taxes;EBE;CAF;Liquidités
+Paiements;Encaissements;;Chiffre d’affaires;Charges de personnel;;Investis;agencements;eau;dois;Haytam;;;;;;;;;;;;
+Décaissements;;;Honoraires;;;Investi;;electricite;;;;;;;;;;;;;;
+Décaissé;;;Honoraire;;;Immos;;edf;;;;;;;;;;;;;;
+payé;;;Prestations;;;Immobilisations incorporelles ;;gaz;;;;;;;;;;;;;;
+Decaissements;;;CA;;;Immobilisations corporelles;;consommation electrique;;;;;;;;;;;;;;
+decaissement;;;;;;;;consommation de gaz;;;;;;;;;;;;;;
+;;;;;;Immos incorpo;;;;;;;;;;;;;;;;
+;;

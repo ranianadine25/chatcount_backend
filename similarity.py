@@ -19,6 +19,8 @@ if (len(sys.argv) > 2):
 
 debug = False
 
+indexFournisseurs = 7
+
 def replaceNumber (string):
     f = ''
     for c in string:
@@ -192,11 +194,10 @@ def levenshteinDistance (s1, s2):
     return distances[-1]
 
 def loadFEC (csv):
-    global labelsFEC, rowsFEC, Fournisseurs
+    global labelsFEC, rowsFEC, Fournisseurs, indexFournisseurs
     labelsFEC = []
     rowsFEC = []
     Fournisseurs = []
-    indexFournisseurs = 7
     #with open(csv, 'r') as file:
     with open(csv, 'r', encoding="utf-8") as file:
         i = 0
@@ -232,7 +233,12 @@ def loadFEC (csv):
                     if not f in Fournisseurs:
                         Fournisseurs.append (f)
             i = i + 1
-    print (Fournisseurs)
+    for i in range (len (Fournisseurs)):
+        sys.stdout.write (Fournisseurs [i])
+        if i < len (Fournisseurs) - 1:
+            sys.stdout.write (';')
+        else:
+            sys.stdout.write ('\n')
 
 if (len(sys.argv) > 1):
     loadFEC (directory + sys.argv [1])
@@ -242,6 +248,16 @@ else:
 debug = False
 
 mois = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre']
+
+def memeMot (w, f):
+    if len (w) < len (f):
+        return False
+    if len (w) == len (f):
+        return w == f
+    if w [:len (f)] == f:
+        if not w [len (f)] in 'abcdefghijklmnopqrstuvwxyz':
+            return True
+    return False
 
 def MotsCles (query):
     xxx = []
@@ -270,24 +286,28 @@ def MotsCles (query):
             for f in Fournisseurs:
                 ff = replaceSpecial (f)
                 if len (w) >= len (ff):
-                    if w [:len (ff)] == ff:
+                    #if w [:len (ff)] == ff: # tr fournisseur si mote cle tresorerie
+                    if memeMot (w, ff):
                         fff.append (ff)
                         if debug:
                             print (ff)
             for lab in range (len (labels)):
                 for row in range (len (rows)):
                     if len (rows [row] [lab]) > 0:
-                        for w in listeSynonymes:
-                            if len (w) >= len (rows [row] [lab]):
+                        #for w in listeSynonymes: # remplace investissements par immobilisations => pb embedding
+                        for w1 in listeSynonymes: # remplace investissements par immobilisations => pb embedding
+                            if len (w1) >= len (rows [row] [lab]):
                                 # tester avec distance d'edition <= 2 pour fautes de frappes et chiffre d'affaire
                                 #if w [:len (rows [row] [lab])].lower () == rows [row] [lab].lower ():
                                 if len (rows [row] [lab]) > 2: 
-                                    if levenshteinDistance (w [:len (rows [row] [lab])], rows [row] [lab]) < 2: 
+                                    if levenshteinDistance (w1 [:len (rows [row] [lab])], rows [row] [lab]) < 2: 
                                         if debug:
-                                            print ('Mot cle possible', rows [row] [lab])
+                                            print ('Mot cle possible', rows [row] [lab], ', mot =', w)
                                         if len (rows [row] [lab]) > bestLength:
                                             bestLength = len (rows [row] [lab])
-                                            mot = rows [row] [lab]
+                                            #mot = rows [row] [lab] probleme remplace investissements par immobilisations dans la question
+                                                                    # ce qui perturbe l'embedding
+                                            mot = w
             if bestLength > 0:
                 xxx.append (mot)
                 if debug:
@@ -317,9 +337,10 @@ def indexEmbedding (query, xxx, mmm, fff):
     besti = -1
     bestq = ''
     q = replaceSpecial (query)
-    embedding2 = model.encode(q)
+    embedding2 = model.encode (q)
     for i in range (3, len (questions)):
         q = replaceSpecial (questions [i] [0])
+        # 'par mois' et 'par' est un fournisseur : oter les fournisseurs qui sont des mots de la question ? 
         if len (q) > 3:
             q = replaceMotsCles (q, xxx, mmm, fff, [])
             if q.find ('xxx') != -1:
@@ -354,6 +375,15 @@ def synonyme (query):
                 return synonymes [i] [0].lower ()
 
     return query.lower ()
+
+def premierMot (query):
+    w = ""
+    for i in range (len (query)):
+        if query [i] != ' ':
+            w += query [i]
+        else:
+            return w
+    return w
 
 def compte (indexSum, indexLabels, motCles):
     res = 0
@@ -640,6 +670,13 @@ datesFin = [["a fin janvier", 1, 31],
             ["a decembre", 12, 31]
             ]
 
+def dernierMois ():
+    first = date.today ()
+    m = first.month - 1
+    if m < 0:
+        m = 0
+    return m
+
 def dates (indexDate, query):
     global debug
     q = query.lower ()
@@ -676,7 +713,7 @@ def dates (indexDate, query):
     #print ("last :", last)
     return first,last
 
-def answerQuery (query, printAnswer = True):
+def answerQuery (query, fff = [], printAnswer = True):
     listLabels = []
     motsCles = []
     Racine3 = False
@@ -691,6 +728,7 @@ def answerQuery (query, printAnswer = True):
             indexCompteAuxLib = lab
         if labels [lab].find ('ecrituredate') != -1:
             indexDate = lab
+    # recupere les mots cles de MotsCles.csv dans la question
     for lab in range (len (labels)):
         for row in range (len (rows)):
             if len (rows [row] [lab]) > 0:
@@ -706,7 +744,7 @@ def answerQuery (query, printAnswer = True):
                             #print (w.lower (), rows [row] [lab].lower ())
                             if w [:len (rows [row] [lab])].lower () == rows [row] [lab].lower ():
                             #if w == rows [row] [lab] [:len (w)].lower ():
-                                if debug:
+                                if True:
                                     print (rows [row] [lab], row, lab, labels [lab])
                                 if not lab in listLabels:
                                     Specifique = False
@@ -721,6 +759,23 @@ def answerQuery (query, printAnswer = True):
                                     if labels [lab].find ('montant') != -1:
                                         indexSum = lab
 
+    # recupere les fournisseurs dans la question
+    for f in fff:
+        listLabels.append (indexFournisseurs)
+        motsCles.append (f.lower ())
+
+        #for i in range (len (query)):
+        #    startWord = False
+        #    if i == 0:
+        #        startWord = True
+        #    elif query [i - 1] == ' ':
+        #        startWord = True
+        #    if startWord:
+        #        w = premierMot (query [i:])
+        #        if w.lower () == f.lower ():
+        #            listLabels.append (indexFournisseurs)
+        #            motsCles.append (f.lower ())
+
     if len (listLabels) == 0:
         if printAnswer:
             sys.stdout.write ("Je n'ai pas compris votre question.\n")
@@ -728,7 +783,7 @@ def answerQuery (query, printAnswer = True):
             sys.stdout.write ("Je n'ai pas compris '" + query + "'.\n")
         return 0.0
     else:
-        if debug:
+        if True:
             print ('Labels')
             for lab in range (len (listLabels)):
                 print (labels [listLabels [lab]], motsCles [lab])
@@ -754,6 +809,15 @@ def answerQuery (query, printAnswer = True):
                     lastDate = date (year, m + 1, lastDayMonth (indexDate, m + 1))
                     print (mois [m])
                     compteDateDetail (indexSum, listLabels, motsCles, indexDate, firstDate, lastDate, indexCompteLib, indexCompteAuxLib)
+        elif query.find ('du dernier mois') > -1:
+            listlabels = copy.deepcopy (listLabels)
+            listlabels.append (indexMois)
+            m = dernierMois ()
+            year = yearMonth (indexDate, m)
+            firstDate = date (year, m, 1)
+            lastDate = date (year, m, lastDayMonth (indexDate, m + 1))
+            print (mois [m])
+            compteDateDetail (indexSum, listLabels, motsCles, indexDate, firstDate, lastDate, indexCompteLib, indexCompteAuxLib)
         elif query.find ('detail') > -1:
             compteDateDetail (indexSum, listLabels, motsCles, indexDate, firstDate, lastDate, indexCompteLib, indexCompteAuxLib)
         elif query.find ('quand') > -1:
@@ -844,6 +908,10 @@ while (True):
     if besti == -1:
         print ("Je n'ai pas trouvé la question dans similarity.csv")
         continue
+    # fournisseur qui est un mot de la question : 'par mois' et 'par' est un fournisseur
+    for f in fff:
+        if f.lower () in questions [besti] [1]:
+            fff.remove (f)
     q = replaceMotsCles (questions [besti] [1], xxx, mmm, fff, [])
     if True:
         print ('Question =', bestq, best, 'Question reformatée =', q)
@@ -864,7 +932,7 @@ while (True):
     print (listQueries, inducteur)
     vvv = []
     if len(listQueries) == 1:
-        res = answerQuery (listQueries [0]) #, False)
+        res = answerQuery (listQueries [0], fff) #, False)
         resString = "{:.2f}".format(res)
         vvv = [resString]
     elif inducteur == 'et':

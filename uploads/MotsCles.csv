@@ -44,7 +44,7 @@ A-JournalCode;B-JournalLib;C-EcritureNum;D-EcritureDate;E-CompteNum;F-CompteLib;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;RÉGIES D'AVANCE ET ACCRÉDITIFS;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;VIREMENTS INTERNES;;Dépréciations des autres immobilisations financières;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;DÉPRÉCIATIONS DES COMPTES FINANCIERS;;Matières;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;ACHATS (sauf 603);;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;achats;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;Services extérieurs;;Fournitures;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;Autres services extérieurs;;Matières consommables;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;IMPÔTS; TAXES ET VERSEMENTS ASSIMILÉS;;;;;;;;;;;;;;;;;;;;;

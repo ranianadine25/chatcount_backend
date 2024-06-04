@@ -13,4 +13,3 @@ const LabelSchema4 = new Schema({
   },
 });
 export default mongoose.model("Label4", LabelSchema4);
-

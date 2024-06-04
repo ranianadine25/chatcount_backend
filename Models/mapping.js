@@ -233,7 +233,7 @@ export const racineLibelle3Mapping = {
   603: "VARIATIONS DES STOCKS (approvisionnements et marchandises)",
   611: "Sous-traitance générale",
   612: "Redevances de crédit-bail",
-  613: "Locations",
+  613: "Loyer",
   614: "Charges locatives et de copropriété",
   615: "Entretien et réparations",
   616: "Primes d'assurances",

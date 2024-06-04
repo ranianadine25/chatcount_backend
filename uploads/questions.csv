@@ -1,6 +1,19 @@
 ;;
 ;;
 Input Initial (phrase naturelle);Input Reformulé (phrase reformatée) - pattern de questions standards;
+Quel est mon xxx1 ? ;Quel est le montant de mon xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
+Quelle est ma xxx1 ?;Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
+Quels sont mes xxx1 ?;Quel est le montant de mes xxx1 ?;Le montant de vos xxx1 est de vvv1 euros
+Quelles sont mes xxx1 ?;Quel est le montant de mes xxx1 ?;Le montant de vos xxx1 est de vvv1 euros
+Donnes moi mon xxx1 ;Quel est le montant de mon xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
+Donnes moi ma xxx1 ;Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
+Donnes moi mes xxx1 ;Quel est le montant de mes xxx1 ?;Le montant de vos xxx1 est de vvv1 euros
+Peux-tu me dire mon xxx1 ?;Quel est le montant de mon xxx1 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 est de vvv1 euros
+Peux-tu me dire ma xxx1 ? ;Quel est le montant de ma xxx1 ? Peux-tu ? ;Oui je peux. Le montant de votre xxx1 est de vvv1 euros
+Peux-tu me dire mes xxx1 ?;Quel est le montant de mes xxx1 ? Peux-tu ? ;Oui je peux. Le montant de votre xxx1 est de vvv1 euros
+Comment connaître mon xxx1 ?;Quel est le montant de mon xxx1 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros. Pour cela il faut...
+Comment connaître ma xxx1 ?;Quel est le montant de ma xxx1 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros. Pour cela il faut...
+Comment connaître mes xxx1 ?;Quel est le montant de mes xxx1 ? + Méthode;Le montant de votre xxx1 est de vvv1 euros. Pour cela il faut...
 Quel est le montant de ma xxx1 ? ;Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
 Combien coûte ma xxx1 ? ;Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
 Quelle est la somme de ma xxx1 ? ;Quel est le montant de ma xxx1 ?;Le montant de votre xxx1 est de vvv1 euros
@@ -40,18 +53,20 @@ Combien coûte mon xxx1 sans les xxx2 ? ;Quel est le montant de mon xxx1 hors xx
 Peux-tu me dire mon xxx1 sans les xxx2 ? ;Quel est le montant de mon xxx1 hors xxx2 ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 hors xxx2 est de vvv1 euros
 Comment mesurer mon xxx1 sans inclure xxx2 ? ;Quel est le montant de mon xxx1 hors xxx2 ? + Méthode;Le montant de votre xxx1 hors xxx2 est de vvv1 euros. Pour cela il faut...
 Comment déterminer mon xxx1 avant xxx2 ? ;Quel est le montant de mon xxx1 hors xxx2 ? + Méthode;Le montant de votre xxx1 hors xxx2 est de vvv1 euros. Pour cela il faut...
-Peux-tu détailler ma xxx1 mensuelle ? ;Quel est le montant de ma xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 par mois est de vvv1 euros
-Quel est le total de ma xxx1 chaque mois ? ;Quel est le montant de ma xxx1 par mois ?;Le montant de votre xxx1 par mois est de vvv1 euros
-Comment déterminer le montant de ma xxx1 chaque mois ? ;Quel est le montant de ma xxx1 par mois ? + Méthode;Le montant de votre xxx1 par mois est de vvv1 euros. Pour cela il faut...
-Est-ce que je peux obtenir un aperçu de ma xxx1 mensuelle ? ;Quel est le montant de ma xxx1 par mois ? Est-ce que ?;Oui. Le montant de votre xxx1 par mois est de vvv1 euros
-Peux-tu détailler mes xxx1 mensuelles ? ;Quel est le montant de mes xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de vos xxx1 par mois est de vvv1 euros
-Quel est le total de mes xxx1 chaque mois ? ;Quel est le montant de mes xxx1 par mois ?;Le montant de vos xxx1 par mois est de vvv1 euros
-Comment déterminer le montant de mes xxx1 chaque mois ? ;Quel est le montant de mes xxx1 par mois ? + Méthode;Le montant de vos xxx1 par mois est de vvv1 euros. Pour cela il faut...
-Est-ce que je peux obtenir un aperçu de mes xxx1 mensuelles ? ;Quel est le montant de mes xxx1 mensuelles ? Est-ce que ?;Oui. Le montant de vos xxx1 par mois est de vvv1 euros
-Peux-tu détailler mon xxx1 mensuel ? ;Quel est le montant de mon xxx1 par mois ? Peux-tu ?;Oui je peux. Le montant de votre xxx1 par mois est de vvv1 euros
-Quel est le total de mon xxx1 chaque mois ? ;Quel est le montant de mon xxx1 par mois ?;Le montant de votre xxx1 par mois est de vvv1 euros
-Comment déterminer le montant de mon xxx1 chaque mois ? ;Quel est le montant de mon xxx1 par mois ? + Méthode;Le montant de votre xxx1 par mois est de vvv1 euros. Pour cela il faut...
-Est-ce que je peux obtenir un aperçu de mon xxx1 mensuel ? ;Quel est le montant de mon xxx1 par mois ? Est-ce que ?;Oui. Le montant de votre xxx1 par mois est de vvv1 euros
+Peux-tu détailler ma xxx1 mensuelle ? ;Quel est le montant de ma xxx1 par mois ? Peux-tu ?;Oui je peux. Voici un tableau qui présente le montant de votre xxx1 par mois
+Quel est le total de ma xxx1 chaque mois ? ;Quel est le montant de ma xxx1 par mois ?;Voici un tableau qui présente le montant de votre xxx1 par mois
+Comment déterminer le montant de ma xxx1 chaque mois ? ;Quel est le montant de ma xxx1 par mois ? + Méthode;Voici un tableau qui présente le montant de votre xxx1 par mois. Pour cela il faut...
+Est-ce que je peux obtenir un aperçu de ma xxx1 mensuelle ? ;Quel est le montant de ma xxx1 par mois ? Est-ce que ?;Oui. Voici un tableau qui présente le montant de votre xxx1 par mois
+Peux-tu détailler mes xxx1 mensuelles ? ;Quel est le montant de mes xxx1 par mois ? Peux-tu ?;Oui je peux. Voici un tableau qui présente le montant de vos xxx1 par mois
+Peux-tu détailler mes xxx1 mensuels ? ;Quel est le montant de mes xxx1 par mois ? Peux-tu ?;Oui je peux. Voici un tableau qui présente le montant de vos xxx1 par mois
+Quel est le total de mes xxx1 chaque mois ? ;Quel est le montant de mes xxx1 par mois ?;Voici un tableau qui présente le montant de vos xxx1 par mois
+Comment déterminer le montant de mes xxx1 chaque mois ? ;Quel est le montant de mes xxx1 par mois ? + Méthode;Voici un tableau qui présente le montant de vos xxx1 par mois. Pour cela il faut...
+Est-ce que je peux obtenir un aperçu de mes xxx1 mensuelles ? ;Quel est le montant de mes xxx1 par mois ? Est-ce que ?;Oui. Voici un tableau qui présente le montant de vos xxx1 par mois
+Est-ce que je peux obtenir un aperçu de mes xxx1 mensuels ? ;Quel est le montant de mes xxx1 par mois ? Est-ce que ?;Oui. Voici un tableau qui présente le montant de vos xxx1 par mois
+Peux-tu détailler mon xxx1 mensuel ? ;Quel est le montant de mon xxx1 par mois ? Peux-tu ?;Oui je peux. Voici un tableau qui présente le montant de votre xxx1 par mois
+Quel est le total de mon xxx1 chaque mois ? ;Quel est le montant de mon xxx1 par mois ?;Voici un tableau qui présente le montant de votre xxx1 par mois
+Comment déterminer le montant de mon xxx1 chaque mois ? ;Quel est le montant de mon xxx1 par mois ? + Méthode;Voici un tableau qui présente le montant de votre xxx1 par mois. Pour cela il faut...
+Est-ce que je peux obtenir un aperçu de mon xxx1 mensuel ? ;Quel est le montant de mon xxx1 par mois ? Est-ce que ?;Oui. Voici un tableau qui présente le montant de votre xxx1 par mois
 Quels sont mes xxx1 en détail ? ;Quel est le détail de mes xxx1 ?;Voici le détail de vos xxx1
 Donnes moi le détail de mes xxx1 ;Quel est le détail de mes xxx1 ?;Voici le détail de vos xxx1
 Montres moi mes xxx1 en détail ;Quel est le détail de mes xxx1 ?;Voici le détail de vos xxx1
@@ -165,13 +180,29 @@ Je veux connaître mes xxx1 de mmm1 et les comparer à celles de mmm2 ;Quel est 
 Quelle est la comparaison de mes xxx1 entre mmm1 et mmm2 ? ;Quel est le montant de mes xxx1 en mmm1 versus le montant de mes xxx1 en mmm2 ?;Le montant de vos xxx1 en mmm1 est de vvv1 euros comparé au montant de vos xxx1 en mmm2 de vvv2 euros
 J'aimerais analyser mes xxx1 de mmm1 en comparaison à ceux de mmm2 ;Quel est le montant de mes xxx1 en mmm1 versus le montant de mes xxx1 en mmm2 ?;Le montant de vos xxx1 en mmm1 est de vvv1 euros comparé au montant de vos xxx1 en mmm2 de vvv2 euros
 Quand ai-je effectué mes versements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ?;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
+Quand ai-je effectué mes versements à fff1 ? ;Quand est-ce que j'ai payé fff1 ? ;Vous avez payé fff1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ... 
 Comment trouver les dates auxquelles j'ai payé xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? + Méthode;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...Pour cela il faut...
+Comment trouver les dates auxquelles j'ai payé fff1 ? ;Quand est-ce que j'ai payé fff1 ? + Méthode;Vous avez payé fff1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...Pour cela il faut...
 Peux-tu me fournir les dates exactes de mes paiements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? Peux-tu ?;Oui je peux. Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
+Peux-tu me fournir les dates exactes de mes paiements à fff1 ? ;Quand est-ce que j'ai payé fff1 ? Peux-tu ?;Oui je peux. Vous avez payé fff1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
 Comment identifier les dates de mes paiements à xxx1 ? ;Quand est-ce que j'ai payé xxx1 ? + Méthode;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...Pour cela il faut...
+Comment identifier les dates de mes paiements à fff1 ? ;Quand est-ce que j'ai payé fff1 ? + Méthode;Vous avez payé fff1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...Pour cela il faut...
 Je cherche à savoir quand j'ai fait mes paiements à xxx1 ;Quand est-ce que j'ai payé xxx1 ?;Vous avez payé xxx1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
+Je cherche à savoir quand j'ai fait mes paiements à fff1 ;Quand est-ce que j'ai payé fff1 ?;Vous avez payé fff1 aux dates suivantes : ddd1 ddd2 ddd3 ddd4 ...
 Peux-tu me dire combien j'ai payé à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ? Peux-tu ?;Oui je peux. Vous avez payé vvv1 euros à xxx1 le mois dernier
+Peux-tu me dire combien j'ai payé à fff1 le mois dernier ? ;Quel est le montant de fff1 du dernier mois ? Peux-tu ?;Oui je peux. Vous avez payé vvv1 euros à fff1 le mois dernier
 Combien ai-je versé à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?;Vous avez payé vvv1 euros à xxx1 le mois dernier
+Combien ai-je versé à fff1 le mois dernier ? ;Quel est le montant de fff1 du dernier mois ?;Vous avez payé vvv1 euros à fff1 le mois dernier
 Je voudrais connaître le montant de xxx1 du dernier mois ? ;Quel est le montant de xxx1 du dernier mois ?;Vous avez payé vvv1 euros à xxx1 le mois dernier
+Je voudrais connaître le montant de fff1 du dernier mois ? ;Quel est le montant de fff1 du dernier mois ?;Vous avez payé vvv1 euros à fff1 le mois dernier
 Quel montant a été débité pour xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?;Vous avez payé vvv1 euros à xxx1 le mois dernier
+Quel montant a été débité pour fff1 le mois dernier ? ;Quel est le montant de fff1 du dernier mois ?;Vous avez payé vvv1 euros à fff1 le mois dernier
 Peux-tu m'informer sur le montant total dû à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ?Peux-tu ?;Oui je peux. Vous avez payé vvv1 euros à xxx1 le mois dernier
+Peux-tu m'informer sur le montant total dû à fff1 le mois dernier ? ;Quel est le montant de fff1 du dernier mois ?Peux-tu ?;Oui je peux. Vous avez payé vvv1 euros à fff1 le mois dernier
 Comment savoir combien j'ai payé à xxx1 le mois dernier ? ;Quel est le montant de xxx1 du dernier mois ? + Méthode;Vous avez payé vvv1 euros à xxx1 le mois dernier. Pour cela il faut...
+Comment savoir combien j'ai payé à fff1 le mois dernier ? ;Quel est le montant de fff1 du dernier mois ? + Méthode;Vous avez payé vvv1 euros à fff1 le mois dernier. Pour cela il faut...
+Combien ai-je payé à fff1 en mmm1 ? ;Quel est le montant de fff1 en mmm1 ?;Vous avez payé vvv1 euros à fff1 en mmm1
+Quelle somme ai-je dépensé pour fff1 en mmm1 ? ;Quel est le montant de fff1 en mmm1 ?;Vous avez payé vvv1 euros à fff1 en mmm1
+Peux-tu me dire combien ai-je dépensé pour fff1 en mmm1 ? ;Quel est le montant de fff1 en mmm1 ?;Oui je peux. Vous avez payé vvv1 euros à fff1 en mmm1
+Comment savoir combien j'ai versé à fff1 en mmm1 ? ;Quel est le montant de fff1 en mmm1 ? + Méthode;Vous avez payé vvv1 euros à fff1 en mmm1. POur cela il faut...
+
