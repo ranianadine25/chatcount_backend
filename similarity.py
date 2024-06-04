@@ -8,8 +8,11 @@ from numpy import dot
 from numpy.linalg import norm
 import pickle
 
-model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-
+try:
+    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
+except Exception as e:
+    print(f"Error loading model: {e}")
+    sys.exit(1)
 directory = ''
 if (len(sys.argv) > 2):
     directory = sys.argv [2]
@@ -95,8 +98,8 @@ questions = load (directory + 'questions.csv')
 
 print (len (questions), 'questions.')
 #print (len (reponses), 'réponses.')
-
-with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
+try:
+   with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
     i = 0
     labels = []
     rows = []
@@ -130,7 +133,12 @@ with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
         else:
             rows.append (result)
         i = i + 1
+except Exception as e:
+    print(f"Error loading MotsCles.csv: {e}")
 
+print(f"Labels: {labels}")
+if rows:
+    print(f"First row: {rows[0]}")
 #print (labels)
 #print (rows [0])
 
