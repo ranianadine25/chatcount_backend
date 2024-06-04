@@ -1,4 +1,6 @@
 from sentence_transformers import SentenceTransformer, util
+import logging
+import os
 import csv
 import sys
 import re
@@ -6,7 +8,11 @@ import copy
 import numpy as np
 from numpy import dot
 from numpy.linalg import norm
+import warnings
+
 import pickle
+logging.basicConfig(level=logging.INFO)
+warnings.filterwarnings("ignore", category=FutureWarning, module='huggingface_hub.file_download')
 
 def load_model():
     try:
@@ -21,8 +27,12 @@ def load_model():
 model = load_model()
 
 directory = ''
-if (len(sys.argv) > 2):
-    directory = sys.argv [2]
+if len(sys.argv) > 2:
+    directory = sys.argv[2]
+    logging.info(f"Using directory: {directory}")
+else:
+    logging.info("No directory specified. Using default.")
+
 
 #from spellchecker import SpellChecker
 #french = SpellChecker(language='fr')
