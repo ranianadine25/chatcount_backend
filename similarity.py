@@ -90,6 +90,9 @@ def replaceSpecial (query):
 
 def load (csv):
     mat = []
+    print(f"Chargement du fichier : {csv}")
+    logging.info(f"Chargement du fichier : {csv}")
+
     with open(csv, 'r', encoding="utf-8") as file:
         i = 0
         for row in file:
@@ -107,6 +110,9 @@ def load (csv):
             if result == []:
                 break
             mat.append (result)
+        print(f"Chargement terminé. Nombre de lignes chargées : {len(mat)}")
+        logging.info(f"Chargement terminé. Nombre de lignes chargées : {len(mat)}")
+
     return mat
 
 #questions = load ('similarity.csv')
@@ -152,6 +158,7 @@ try:
         i = i + 1
 except Exception as e:
     print(f"Error loading MotsCles.csv: {e}")
+    logging.error(f"Erreur lors du chargement de MotsCles.csv: {e}")
 
 print(f"Labels: {labels}")
 if rows:
