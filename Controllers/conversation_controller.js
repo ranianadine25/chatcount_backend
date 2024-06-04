@@ -139,6 +139,20 @@ export async function afficherConv(req, res) {
     });
   }
 }
+export async function afficherConvShared(req, res) {
+  try {
+    const userId = req.params.userId;
+
+    const conversations = await conversation.find({ participants: userId });
+
+    res.status(200).json({ conversations });
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération des conversations",
+      error,
+    });
+  }
+}
 
 export async function recupConv(req, res) {
   const { conversationId } = req.params;
