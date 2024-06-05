@@ -236,12 +236,12 @@ def loadFEC (csv):
                     if not f in Fournisseurs:
                         Fournisseurs.append (f)
             i = i + 1
-    for i in range (len (Fournisseurs)):
-        sys.stdout.write (Fournisseurs [i])
-        if i < len (Fournisseurs) - 1:
-            sys.stdout.write ('|')
-        else:
-            sys.stdout.write ('\n')
+   # for i in range (len (Fournisseurs)):
+      #  sys.stdout.write (Fournisseurs [i])
+        #if i < len (Fournisseurs) - 1:
+            #sys.stdout.write ('|')
+       #else:
+           # sys.stdout.write ('\n')
 
 if (len(sys.argv) > 1):
     loadFEC (directory + sys.argv [1])

@@ -355,11 +355,13 @@ export async function sendMissionNotification(message, receivers, sender) {
       creation_date: new Date(),
       sender: sender,
       seen: false,
-      user_id: receivers[0]?.user_id ,
+      user_id: receivers[0]?.user_id,
     });
 
     await notification.save();
-    const totalUnreadNotifications = await Notification.countDocuments({ seen: false });
+    const totalUnreadNotifications = await Notification.countDocuments({
+      seen: false,
+    });
 
     io.emit("new-mission-notification", {
       sender: notification.sender,
@@ -422,8 +424,7 @@ export async function lancerTraitement(req, res) {
 
     const fecData = fec.data;
 
-    const csvFilePath = path.join("uploads", fec.name);
-
+    const csvFilePath = path.join("/uploads", fec.name);
     fs.readFile(csvFilePath, "utf-8", (err, data) => {
       if (err) {
         console.error("Erreur lors du chargement du fichier FEC :", err);
@@ -463,7 +464,7 @@ export async function lancerTraitement(req, res) {
             "3-Mois",
             "4-Trimestre",
             "5-Semestre",
-            "6-Année",
+            "6-Annee",
             "7-Racine 1",
             "8-Libellé Racine 1",
             "9-Racine 2",
@@ -496,16 +497,15 @@ export async function lancerTraitement(req, res) {
       }
 
       for (let i = 1; i < rowsFEC.length; i++) {
-        const credit =
-          parseFloat(rowsFEC[i][labelsFEC.indexOf("L-Credit")]) || 0;
-        const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("K-Debit")]) || 0;
+        const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Credit")]) || 0;
+        const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Debit")]) || 0;
         const montant = credit - debit;
         rowsFEC[i][labelsFEC.indexOf("1-Montant")] = montant.toString();
         const valeurAbsolueMontant = Math.abs(montant);
         rowsFEC[i][labelsFEC.indexOf("2-Valeur Absolue")] =
           valeurAbsolueMontant.toString();
         const ecritureDate = new Date(
-          rowsFEC[i][labelsFEC.indexOf("D-EcritureDate")]
+          rowsFEC[i][labelsFEC.indexOf("EcritureDate")]
         );
 
         const moisNames = [
@@ -523,74 +523,70 @@ export async function lancerTraitement(req, res) {
           "decembre",
         ];
 
-        // Mois (2.3)
-        //   if (ecritureDate instanceof Date && !isNaN(ecritureDate)) {
-        //     const mois = moisNames[ecritureDate.getMonth()];
-        //     rowsFEC[i][labelsFEC.indexOf("3-Mois")] = replaceSpecial(mois);
-
-        //     const trimestre = Math.floor((ecritureDate.getMonth() + 3) / 3);
-        //     rowsFEC[i][labelsFEC.indexOf("4-Trimestre")] = trimestre;
-
-        //     const semestre = Math.ceil((ecritureDate.getMonth() + 6) / 6);
-        //     rowsFEC[i][labelsFEC.indexOf("5-Semestre")] = semestre;
-
-        //     const annee = ecritureDate.getFullYear();
-        //     rowsFEC[i][labelsFEC.indexOf("6-Annee")] = annee;
-        // } else {
-        //  Si la date n'est pas valide, attribuer des valeurs vides
         rowsFEC[i][labelsFEC.indexOf("3-Mois")] = "";
         rowsFEC[i][labelsFEC.indexOf("4-Trimestre")] = "";
         rowsFEC[i][labelsFEC.indexOf("5-Semestre")] = "";
         rowsFEC[i][labelsFEC.indexOf("6-Annee")] = "";
-        //}
 
-        const compteComptable = rowsFEC[i][labelsFEC.indexOf("E-CompteNum")];
-        const racine1 = compteComptable.substring(0, 1);
-        const racine2 = compteComptable.substring(0, 2);
-        const racine3 = compteComptable.substring(0, 3);
-        const racine4 = compteComptable.substring(0, 4);
-        const racine5 = compteComptable.substring(0, 5);
+        const compteComptableIndex = labelsFEC.indexOf("CompteNum");
+        if (compteComptableIndex !== -1) {
+          const compteComptable = rowsFEC[i][compteComptableIndex];
+          if (compteComptable) {
+            const racine1 = compteComptable.substring(0, 1);
+            const racine2 = compteComptable.substring(0, 2);
+            const racine3 = compteComptable.substring(0, 3);
+            const racine4 = compteComptable.substring(0, 4);
+            const racine5 = compteComptable.substring(0, 5);
 
-        rowsFEC[i][labelsFEC.indexOf("7-Racine 1")] = racine1;
-        const racine1Label = racineLibelle1MappingDB[racine1];
+            rowsFEC[i][labelsFEC.indexOf("7-Racine 1")] = racine1;
+            const racine1Label = racineLibelle1MappingDB[racine1];
 
-        rowsFEC[i][labelsFEC.indexOf("9-Racine 2")] = racine2;
-        const racine2Label = racineLibelle2MappingDB[racine2];
+            rowsFEC[i][labelsFEC.indexOf("9-Racine 2")] = racine2;
+            const racine2Label = racineLibelle2MappingDB[racine2];
+            if (racine2Label !== undefined) {
+              rowsFEC[i][labelsFEC.indexOf("10-Libellé Racine 2")] =
+                replaceSpecial(racine2Label);
+            }
+            rowsFEC[i][labelsFEC.indexOf("11-Racine 3")] = racine3;
+            const racine3Label = racineLibelle3MappingDB[racine3];
 
-        rowsFEC[i][labelsFEC.indexOf("10-Libellé Racine 2")] =
-          replaceSpecial(racine2Label);
-        rowsFEC[i][labelsFEC.indexOf("11-Racine 3")] = racine3;
-        const racine3Label = racineLibelle3MappingDB[racine3];
+            if (racine3Label !== undefined) {
+              rowsFEC[i][labelsFEC.indexOf("12-Libellé Racine 3")] =
+                replaceSpecial(racine3Label);
+            }
+            rowsFEC[i][labelsFEC.indexOf("13-Racine 4")] = racine4;
+            const racine4Label = racineLibelle4MappingDB[racine4];
 
-        rowsFEC[i][labelsFEC.indexOf("13-Racine 4")] = racine4;
-        const racine4Label = racineLibelle4MappingDB[racine4];
+            if (racine4Label !== undefined) {
+              rowsFEC[i][labelsFEC.indexOf("14-Libellé Racine 4")] =
+                replaceSpecial(racine4Label);
+            }
+            rowsFEC[i][labelsFEC.indexOf("15-Racine 5")] = racine5;
+            const racine5Label = racineLibelle5MappingDB[racine5];
 
-        rowsFEC[i][labelsFEC.indexOf("15-Racine 5")] = racine5;
-        const racine5Label = racineLibelle5MappingDB[racine5];
-
-        rowsFEC[i][labelsFEC.indexOf("8-Libellé Racine 1")] =
-          replaceSpecial(racine1Label);
-
-        rowsFEC[i][labelsFEC.indexOf("12-Libellé Racine 3")] =
-          replaceSpecial(racine3Label);
-        rowsFEC[i][labelsFEC.indexOf("14-Libellé Racine 4")] =
-          replaceSpecial(racine4Label);
-        rowsFEC[i][labelsFEC.indexOf("16-Libellé Racine 5")] =
-          replaceSpecial(racine5Label);
+            if (racine5Label !== undefined) {
+              rowsFEC[i][labelsFEC.indexOf("16-Libellé Racine 5")] =
+                replaceSpecial(racine5Label);
+            }
+            if (racine1Label !== undefined) {
+              rowsFEC[i][labelsFEC.indexOf("8-Libellé Racine 1")] =
+                replaceSpecial(racine1Label);
+            }
+          }
+        }
         rowsFEC[i][labelsFEC.indexOf("21-Banque")] = "";
         rowsFEC[i][labelsFEC.indexOf("22-Caisse")] = "";
-
         rowsFEC[i][labelsFEC.indexOf("32-")] = "";
 
-        const racineNum = parseInt(racine1);
+        const racineNum = parseInt(rowsFEC[i][labelsFEC.indexOf("7-Racine 1")]);
         if (racineNum >= 0 && racineNum <= 5) {
           rowsFEC[i][labelsFEC.indexOf("17-Bilan")] = "Bilan";
         } else if (racineNum >= 6 && racineNum <= 7) {
           rowsFEC[i][labelsFEC.indexOf("18-Resultat")] = "Resultat";
         }
         if (
-          racine3 === "512" &&
-          rowsFEC[i][labelsFEC.indexOf("A-JournalCode")] !== "RAN"
+          rowsFEC[i][labelsFEC.indexOf("11-Racine 3")] === "512" &&
+          rowsFEC[i][labelsFEC.indexOf("ournalCode")] !== "RAN"
         ) {
           rowsFEC[i][labelsFEC.indexOf("20-Tresorerie")] = "Tresorerie";
         }
@@ -599,20 +595,23 @@ export async function lancerTraitement(req, res) {
         rowsFEC[i][labelsFEC.indexOf("23-Debit/Crédit")] =
           replaceSpecial(debitCreditD);
       }
-      const premierDateFEC = rowsFEC[1][labelsFEC.indexOf("D-EcritureDate")];
+
+      const premierDateFEC = rowsFEC[1][labelsFEC.indexOf("EcritureDate")];
 
       const isFirstDateFEC = rowsFEC.every(
-        (row) => row[labelsFEC.indexOf("D-EcritureDate")] === premierDateFEC
+        (row) => row[labelsFEC.indexOf("EcritureDate")] === premierDateFEC
       );
 
       const hasRacine67 = rowsFEC.some((row) => {
-        const racine1 = row[labelsFEC.indexOf("E-CompteNum")].substring(0, 1);
+        const compteComptable = row[labelsFEC.indexOf("CompteNum")];
+        if (!compteComptable) return false;
+        const racine1 = compteComptable.substring(0, 1);
         return racine1 === "6" || racine1 === "7";
       });
 
       const isReportAN = rowsFEC.some((row) =>
         ["RAN", "SAN", "AN", "AND"].includes(
-          row[labelsFEC.indexOf("A-JournalCode")]
+          row[labelsFEC.indexOf("ournalCode")]
         )
       );
 
@@ -639,15 +638,15 @@ export async function lancerTraitement(req, res) {
 
       let isAchat = false;
       const comptesNum = rowsFEC.map(
-        (row) => row[labelsFEC.indexOf("E-CompteNum")]
+        (row) => row[labelsFEC.indexOf("CompteNum")]
       );
       const debitCredit = rowsFEC.map(
         (row) => row[labelsFEC.indexOf("23-Debit/Crédit")]
       );
 
       for (let i = 1; i < rowsFEC.length; i++) {
-        const compteNum = rowsFEC[i][labelsFEC.indexOf("E-CompteNum")];
-        const journalCode = rowsFEC[i][labelsFEC.indexOf("A-JournalCode")];
+        const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
+        const journalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
 
         // Vérifier si le compte est un compte fournisseur (401) et n'est pas catégorisé comme trésorerie
         if (
@@ -686,10 +685,10 @@ export async function lancerTraitement(req, res) {
       // Identifier les écritures de ventes
       let isVente = false;
       for (let i = 1; i < rowsFEC.length; i++) {
-        const compteNum = rowsFEC[i][labelsFEC.indexOf("E-CompteNum")];
-        const journalCode = rowsFEC[i][labelsFEC.indexOf("A-JournalCode")];
-        const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("K-Debit")]);
-        const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("L-Credit")]);
+        const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
+        const journalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
+        const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Debit")]);
+        const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Credit")]);
 
         // Vérifier si le compte est un compte client (411) ou une remise à l'encaissement (53) ou de la caisse, et n'est pas catégorisé comme trésorerie
         if (
@@ -743,32 +742,32 @@ export async function lancerTraitement(req, res) {
       }
 
       for (let i = 1; i < rowsFEC.length; i++) {
-        const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 2);
-
-        if (racine2 >= "20" && racine2 <= "27") {
-          rowsFEC[i][labelsFEC.indexOf("29-Investissements")] =
-            "Investissements";
+        const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")];
+        if (racine2 && racine2.length >= 2) {
+          const racine2Sub = racine2.slice(0, 2);
+          if (racine2Sub >= "20" && racine2Sub <= "27") {
+            rowsFEC[i][labelsFEC.indexOf("29-Investissements")] =
+              "Investissements";
+          } else {
+            rowsFEC[i][labelsFEC.indexOf("29-Investissements")] = "";
+          }
         } else {
           rowsFEC[i][labelsFEC.indexOf("29-Investissements")] = "";
         }
       }
-      for (let i = 1; i < rowsFEC.length; i++) {
-        const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 2);
 
-        // if (racine2 === "28") {
-        rowsFEC[i][labelsFEC.indexOf("30-")] = "";
-        // } else {
-        //   rowsFEC[i][labelsFEC.indexOf("30-Amortissements")] = "";
-        // }
+      for (let i = 1; i < rowsFEC.length; i++) {
+        const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")];
+        if (racine2 && racine2.length >= 2) {
+          rowsFEC[i][labelsFEC.indexOf("30-")] = "";
+        }
       }
-      for (let i = 1; i < rowsFEC.length; i++) {
-        const racine3 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 3);
 
-        // if (racine3[0] === "4" && racine3[2] === "8") {
-        rowsFEC[i][labelsFEC.indexOf("31-")] = "";
-        // } else {
-        //   rowsFEC[i][labelsFEC.indexOf("31-Provisions")] = "";
-        // }
+      for (let i = 1; i < rowsFEC.length; i++) {
+        const racine3 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")];
+        if (racine3 && racine3.length >= 3) {
+          rowsFEC[i][labelsFEC.indexOf("31-")] = "";
+        }
       }
       for (let i = 1; i < rowsFEC.length; i++) {
         const montant = parseFloat(rowsFEC[i][labelsFEC.indexOf("1-Montant")]);
@@ -784,6 +783,15 @@ export async function lancerTraitement(req, res) {
             "";
         }
       }
+      labelsFEC = labelsFEC.filter((label) => label !== "");
+      rowsFEC = rowsFEC.map((row) =>
+        row.filter((_, index) => labelsFEC[index] !== "")
+      );
+
+      const outputContent = [
+        labelsFEC.join(";"),
+        ...rowsFEC.map((row) => row.join(";")),
+      ].join("\n");
 
       fs.writeFile(
         csvFilePath,

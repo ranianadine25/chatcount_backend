@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 export async function exportCSVData(req, res) {
   try {
-    const csvData = await ColumnData.findOne();
+    const csvData = await patternModel.findOne();
 
     if (!csvData) {
       return res.status(404).json({ message: "Aucune donnée CSV trouvée" });

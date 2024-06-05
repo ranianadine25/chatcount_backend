@@ -8,7 +8,7 @@ export async function paraphraser(req, res) {
   try {
     const { text } = req.body;
     const phrasesFromFile = await loadParaphrasesFromFile(
-      "uploads/similarity.csv"
+      "uploads/questions.csv"
     );
 
     const tokenizer = new natural.WordTokenizer();
@@ -122,6 +122,29 @@ export async function recupFecName(req, res) {
     return res
       .status(500)
       .json({ message: "Erreur lors de la récupération du nom du FEC", error });
+  }
+}
+export async function recupFecId(req, res) {
+  try {
+    const conversationId = req.params.conversationId;
+
+    const conversationf = await conversation.findById(conversationId);
+    if (!conversationf) {
+      console.error("Conversation non trouvée.");
+      return res.status(404).json({ message: "Conversation non trouvée." });
+    }
+
+    const fecId = conversationf.fecId;
+    if (!fecId) {
+      console.error("Identifiant FEC non trouvé dans la conversation.");
+      return res.status(404).json({ message: "Identifiant FEC non trouvé dans la conversation." });
+    }
+
+    console.log("FEC ID:", fecId);
+    return res.status(200).json({ fecId });
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'ID du FEC :", error);
+    return res.status(500).json({ message: "Erreur lors de la récupération de l'ID du FEC", error });
   }
 }
 

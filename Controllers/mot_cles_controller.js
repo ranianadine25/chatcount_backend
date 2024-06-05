@@ -6,6 +6,7 @@ import path from 'path';
 import { createObjectCsvWriter } from 'csv-writer';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import Folder from "../Models/fec.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -60,8 +61,44 @@ export async function exportCSVData(req, res) {
     console.error("Error exporting CSV data:", error);
     res.status(500).json({ message: "Erreur lors de l'exportation des données CSV" });
   }
-}
+}export async function exportFecData(req, res) {
+  try {
+    const fecId = req.params.fecId;
 
+    // Validation de l'ID du FEC
+    if (!fecId) {
+      console.error("ID du FEC manquant dans la requête");
+      return res.status(400).json({ message: "ID du FEC manquant" });
+    }
+
+    // Récupération des données CSV à partir du modèle
+    const csvData = await Folder.findById(fecId);
+    if (!csvData) {
+      console.error("Aucune donnée CSV trouvée pour l'ID spécifié");
+      return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
+    }
+
+    // Vérification de l'existence du chemin du fichier CSV
+    const csvFilePath = path.join("/uploads", csvData.name);
+    if (!fs.existsSync(csvFilePath)) {
+      console.error("Le fichier CSV spécifié n'existe pas");
+      return res.status(404).json({ message: "Le fichier CSV spécifié n'existe pas" });
+    }
+
+    // Envoi du fichier CSV en réponse
+    res.download(csvFilePath, csvData.name, (err) => {
+      if (err) {
+        console.error("Erreur lors de l'envoi du fichier CSV:", err);
+        res.status(500).json({ message: "Erreur lors de l'envoi du fichier CSV" });
+      } else {
+        console.log("Fichier CSV envoyé avec succès");
+      }
+    });
+  } catch (error) {
+    console.error("Erreur lors de l'exportation des données CSV:", error);
+    res.status(500).json({ message: "Erreur lors de l'exportation des données CSV", error: error.message });
+  }
+}
 export async function importCSVData(req, res) {
   try {
     const fileName = req.body && req.body.fileName ? req.body.fileName : null;
