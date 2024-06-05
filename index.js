@@ -96,23 +96,22 @@ let fecName;
 let pythonProcess;
 let isMessageSaved = false;
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   console.log("Un utilisateur s'est connecté");
 
+  // Précharge les informations nécessaires dès que l'utilisateur se connecte
   socket.on("fetchUserConversation", async (userId) => {
     try {
-      const userConversation = await conversation.findOne({ userId });
-
+      const userConversation = await conversation.findOne({ userId }).lean(); // lean() pour optimiser la récupération
       if (!userConversation) {
         console.log("Aucune conversation trouvée pour cet utilisateur.");
         return;
       }
 
       const { _id: conversationId, fecId } = userConversation;
-      const fec = await FECModel.findById(fecId);
+      const fec = await FECModel.findById(fecId).lean();
       const fecName = fec ? fec.name : "Nom du FEC introuvable";
-
-      const isPythonProcessRunning = false; // À remplacer par votre logique pour vérifier l'état du processus Python
+      const isPythonProcessRunning = false; // Remplacer par la vérification réelle
 
       socket.emit("userConversationDetails", {
         conversationId,
@@ -129,22 +128,21 @@ io.on("connection", (socket) => {
 
   socket.on("fetchFecName", async (conversationId) => {
     try {
-      const conversation = await ConversationModel.findById(conversationId);
-
+      const conversation = await ConversationModel.findById(
+        conversationId
+      ).lean();
       if (!conversation) {
         console.error("Conversation non trouvée.");
         return;
       }
 
       const fecId = conversation.fecId;
-
       if (!fecId) {
         console.error("Identifiant FEC non trouvé dans la conversation.");
         return;
       }
 
-      const fec = await FECModel.findById(fecId);
-
+      const fec = await FECModel.findById(fecId).lean();
       if (!fec) {
         console.error("FEC non trouvé.");
         return;
@@ -153,15 +151,17 @@ io.on("connection", (socket) => {
       fecName = fec.name;
       console.log("fecName:", fecName);
 
-      pythonProcess = spawn("python", ["./similarity.py", fecName, "uploads/"]);
+      pythonProcess = spawn(
+        "python",
+        ["./similarity.py", fecName, "uploads/"],
+        { encoding: "utf-8" }
+      );
 
-      // Gérer la sortie standard du processus Python
       pythonProcess.stdout.on("data", (data) => {
         console.log(`stdout: ${data}`);
         handlePythonData(data, socket, conversationId);
       });
 
-      // Gérer les erreurs du processus Python
       pythonProcess.stderr.on("data", (data) => {
         console.error(`stderr: ${data}`);
       });

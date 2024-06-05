@@ -21,7 +21,6 @@ export async function exportCSVData(req, res) {
     const exportDir = path.join(__dirname, 'exports');
     const filePath = path.join(exportDir, 'exportedData.csv');
 
-    // Create the directory if it does not exist
     if (!fs.existsSync(exportDir)) {
       fs.mkdirSync(exportDir, { recursive: true });
     }
@@ -65,17 +64,14 @@ export async function exportCSVData(req, res) {
 
 export async function importCSVData(req, res) {
   try {
-    // Vérifiez si req.body est défini et si fileName est fourni
     const fileName = req.body && req.body.fileName ? req.body.fileName : null;
     const columns = {};
     await ColumnData.deleteMany({});
 
     let filePath;
     if (fileName) {
-      // Utiliser le fichier revenu par l'upload
       filePath = "uploads/" + fileName;
     } else {
-      // Utiliser le fichier par défaut
       filePath = "uploads/MotsCles.csv";
     }
 
@@ -110,8 +106,6 @@ export async function importCSVData(req, res) {
           res.status(500).json({
             message: "Erreur lors de l'insertion des données de la colonne.",
           });
-        } finally {
-          mongoose.connection.close();
         }
       })
       .on("error", (err) => {

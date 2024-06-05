@@ -7,6 +7,9 @@ import numpy as np
 from numpy import dot
 from numpy.linalg import norm
 import pickle
+import codecs
+
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
 model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 
@@ -93,7 +96,7 @@ def load (csv):
 #reponses = load ('reponses.csv')
 questions = load (directory + 'questions.csv')
 
-print (len (questions), 'questions.')
+#print (len (questions), 'questions.')
 #print (len (reponses), 'réponses.')
 
 with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
@@ -236,7 +239,7 @@ def loadFEC (csv):
     for i in range (len (Fournisseurs)):
         sys.stdout.write (Fournisseurs [i])
         if i < len (Fournisseurs) - 1:
-            sys.stdout.write (';')
+            sys.stdout.write ('|')
         else:
             sys.stdout.write ('\n')
 

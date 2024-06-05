@@ -116,9 +116,7 @@ export async function importCSVData(req, res) {
         } catch (err) {
           console.error("Error inserting column data:", err);
           res.status(500).json({ error: "Error inserting column data." });
-        } finally {
-          mongoose.connection.close();
-        }
+        } 
       });
   } catch (err) {
     console.error("Error processing file:", err);
@@ -294,6 +292,44 @@ export async function updateCsvData(req, res) {
     );
     return res.status(500).json({
       message: "Une erreur est survenue lors de la mise à jour de la cellule.",
+      error: error.message,
+    });
+  }
+}
+
+export async function updateTitleData(req, res) {
+  try {
+    const { columnIndex, newValue } = req.body;
+    const csvPath = "uploads/Synonymes.csv";
+
+    const csvContent = fs.readFileSync(csvPath, "utf-8");
+    const lines = csvContent.split("\n");
+
+    const titles = lines[0].split(";");
+    if (columnIndex >= 0 && columnIndex < titles.length) {
+      titles[columnIndex] = newValue;
+      lines[0] = titles.join(";");
+
+      fs.writeFileSync(csvPath, lines.join("\n"));
+
+      const document = await Synonyme.findOne();
+      if (document) {
+        document.titre = titles.join(";");
+        await document.save();
+
+        return res.status(200).json({
+          message: "Titre de colonne mis à jour avec succès dans le fichier CSV et la base de données."
+        });
+      } else {
+        throw new Error("Aucun document trouvé dans la base de données.");
+      }
+    } else {
+      throw new Error("Index de colonne invalide.");
+    }
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du titre de colonne :", error);
+    return res.status(500).json({
+      message: "Une erreur est survenue lors de la mise à jour du titre de colonne.",
       error: error.message,
     });
   }

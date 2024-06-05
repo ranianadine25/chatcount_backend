@@ -158,9 +158,7 @@ export async function importpatternsDatas(req, res) {
         }
       } catch (err) {
         console.error("Error inserting column data:", err);
-      } finally {
-        mongoose.connection.close();
-      }
+      } 
     });
 }
 
