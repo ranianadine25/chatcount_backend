@@ -1,6 +1,6 @@
 import express from "express";
 import {
-    deletePatternData,
+  deletePatternData,
   getpatternsData,
   importpatternsDatas,
   insertPatternData,

@@ -1,6 +1,4 @@
 from sentence_transformers import SentenceTransformer, util
-import logging
-import os
 import csv
 import sys
 import re
@@ -8,31 +6,13 @@ import copy
 import numpy as np
 from numpy import dot
 from numpy.linalg import norm
-import warnings
-
 import pickle
-logging.basicConfig(level=logging.INFO)
-warnings.filterwarnings("ignore", category=FutureWarning, module='huggingface_hub.file_download')
 
-def load_model():
-    try:
-        print("Loading model...")
-        model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
-        print("Model loaded successfully.")
-        return model
-    except Exception as e:
-        print(f"Error loading model: {e}")
-        sys.exit(1)
-
-model = load_model()
+model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 
 directory = ''
-if len(sys.argv) > 2:
-    directory = sys.argv[2]
-    logging.info(f"Using directory: {directory}")
-else:
-    logging.info("No directory specified. Using default.")
-
+if (len(sys.argv) > 2):
+    directory = sys.argv [2]
 
 #from spellchecker import SpellChecker
 #french = SpellChecker(language='fr')
@@ -90,9 +70,6 @@ def replaceSpecial (query):
 
 def load (csv):
     mat = []
-    print(f"Chargement du fichier : {csv}")
-    logging.info(f"Chargement du fichier : {csv}")
-
     with open(csv, 'r', encoding="utf-8") as file:
         i = 0
         for row in file:
@@ -110,9 +87,6 @@ def load (csv):
             if result == []:
                 break
             mat.append (result)
-        print(f"Chargement terminé. Nombre de lignes chargées : {len(mat)}")
-        logging.info(f"Chargement terminé. Nombre de lignes chargées : {len(mat)}")
-
     return mat
 
 #questions = load ('similarity.csv')
@@ -121,8 +95,8 @@ questions = load (directory + 'questions.csv')
 
 print (len (questions), 'questions.')
 #print (len (reponses), 'réponses.')
-try:
-   with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
+
+with open(directory + 'MotsCles.csv', 'r', encoding="utf-8") as file:
     i = 0
     labels = []
     rows = []
@@ -156,13 +130,7 @@ try:
         else:
             rows.append (result)
         i = i + 1
-except Exception as e:
-    print(f"Error loading MotsCles.csv: {e}")
-    logging.error(f"Erreur lors du chargement de MotsCles.csv: {e}")
 
-print(f"Labels: {labels}")
-if rows:
-    print(f"First row: {rows[0]}")
 #print (labels)
 #print (rows [0])
 
