@@ -153,7 +153,7 @@ io.on("connection", async (socket) => {
 
       pythonProcess = spawn(
         "python",
-        ["./similarity.py", fecName, "uploads/"],
+        ["./similarity.py", fecName, "/uploads/"],
         { encoding: "utf-8" }
       );
 
