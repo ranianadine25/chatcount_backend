@@ -134,6 +134,26 @@ export async function getFec(req, res) {
     });
   }
 }
+export async function getFecTrait(req, res) {
+  try {
+    const userId = req.params.userId;
+
+    // Rechercher les FEC avec l'état "traité" pour l'utilisateur donné
+    const fecs = await FecModel.find({ user: userId, etat: "traité" });
+
+    res.status(200).json({
+      message: "Liste des FEC traités récupérée avec succès",
+      data: fecs,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Une erreur est survenue lors de la récupération des FEC",
+      error,
+    });
+  }
+}
+
 export async function deleteFec(req, res) {
   try {
     const fecIdToDelete = req.params.fecId;

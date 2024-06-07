@@ -4,6 +4,7 @@ import express from "express";
 import {
   deleteFec,
   getFec,
+  getFecTrait,
   replaceFile,
   uploadFec,
 } from "../Controllers/fec_controller.js";
@@ -14,6 +15,8 @@ const router = express.Router();
 
 router.post("/uploadCsv/:userId", upload, uploadFec);
 router.get("/getCsv/:userId", getFec);
+router.get("/getFecTrait/:userId", getFecTrait);
+
 router.put("/fec/replace/:existingFecId", replaceFile);
 router.get("/getFecName/:conversationId", recupFecName);
 router.get("/getFecId/:conversationId", recupFecId);

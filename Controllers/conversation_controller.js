@@ -8,7 +8,7 @@ export async function paraphraser(req, res) {
   try {
     const { text } = req.body;
     const phrasesFromFile = await loadParaphrasesFromFile(
-      "uploads/questions.csv"
+      "uploads/para.csv"
     );
 
     const tokenizer = new natural.WordTokenizer();
@@ -46,11 +46,16 @@ export async function paraphraser(req, res) {
 export async function loadParaphrasesFromFile(filePath) {
   return new Promise((resolve, reject) => {
     const phrases = [];
+    let rowCount = 0;
 
     fs.createReadStream(filePath)
-      .pipe(csv({ delimiter: ";" })) // Utilisation du bon délimiteur
-      .on("data", (data) => {
-        Object.values(data).forEach((value) => {
+      .pipe(csv({ delimiter: ";" }))
+      .on("data", (row) => {
+        rowCount++;
+
+        if (rowCount <= 1) return;
+
+        Object.values(row).forEach((value) => {
           if (value.trim() !== "") {
             phrases.push(value.trim());
           }
@@ -65,6 +70,7 @@ export async function loadParaphrasesFromFile(filePath) {
       });
   });
 }
+
 export async function ajoutConversation(req, res) {
   const { userId, fecId } = req.params;
   const date = Date.now();

@@ -380,6 +380,58 @@ export async function lancerTraitement(req, res) {
   try {
     const date = Date().now;
     const fecId = req.params.fecId;
+    const allowedColumns = [
+      "JournalCode",
+      "JournalLib",
+      "EcritureNum",
+      "EcritureDate",
+      "CompteNum",
+      "CompteLib",
+      "CompAuxNum",
+      "CompAuxLib",
+      "PieceRef",
+      "PieceDate",
+      "EcritureLib",
+
+      "Debit",
+      "Credit",
+      "EcritureLet",
+      "DateLet",
+      "ValidDate",
+      "Montantdevise",
+      "Idevise",
+      "1-Montant",
+      "2-Valeur Absolue",
+      "3-Mois",
+      "4-Trimestre",
+      "5-Semestre",
+      "6-Annee",
+      "7-Racine 1",
+      "8-Libellé Racine 1",
+      "9-Racine 2",
+      "10-Libellé Racine 2",
+      "11-Racine 3",
+      "12-Libellé Racine 3",
+      "13-Racine 4",
+      "14-Libellé Racine 4",
+      "15-Racine 5",
+      "16-Libellé Racine 5",
+      "17-Bilan",
+      "18-Resultat",
+      "19-Report à nouveau",
+      "20-Trésorerie",
+      "21-Banque",
+      "22-Caisse",
+      "23-Debit/Crédit",
+      "24-Encaissements / Décaissements",
+      "25-Dettes",
+      "26-",
+      "27-",
+      "29-Investissements",
+      "30-",
+      "31-",
+      "32-",
+    ];
 
     const fec = await FecModel.findById(fecId);
 
@@ -458,6 +510,9 @@ export async function lancerTraitement(req, res) {
             // Sinon, simplement utiliser les étiquettes telles quelles
             labelsFEC = row;
           }
+
+          // Filtrer les colonnes pour ne conserver que celles autorisées
+          labelsFEC = labelsFEC.filter((col) => allowedColumns.includes(col));
           labelsFEC.push(
             "1-Montant",
             "2-Valeur Absolue",
@@ -492,7 +547,10 @@ export async function lancerTraitement(req, res) {
             "32-"
           );
         } else {
-          rowsFEC.push(row.map((value) => replaceSpecial(value)));
+          const filteredRow = row.filter((_, index) =>
+            allowedColumns.includes(labelsFEC[index])
+          );
+          rowsFEC.push(filteredRow.map((value) => replaceSpecial(value)));
         }
       }
 
@@ -783,37 +841,26 @@ export async function lancerTraitement(req, res) {
             "";
         }
       }
-      labelsFEC = labelsFEC.filter((label) => label !== "");
-      rowsFEC = rowsFEC.map((row) =>
-        row.filter((_, index) => labelsFEC[index] !== "")
-      );
-
-      const outputContent = [
+      const outputCsv = [
         labelsFEC.join(";"),
         ...rowsFEC.map((row) => row.join(";")),
       ].join("\n");
-
-      fs.writeFile(
-        csvFilePath,
-        generateCsv(labelsFEC, rowsFEC),
-        "utf-8",
-        (err) => {
-          if (err) {
-            console.error("Erreur lors de l'écriture du fichier FEC :", err);
-            return res.status(500).json({
-              message: "Erreur lors de l'écriture du fichier FEC",
-              error: err,
-            });
-          }
-          fec.etat = "traité";
-          sendMissionNotification(message, fec.user, fec.user);
-          fec.save();
-          console.log("Fichier FEC mis à jour avec succès");
-          return res
-            .status(200)
-            .json({ message: "Traitement du FEC terminé avec succès" });
+      fs.writeFile(csvFilePath, outputCsv, "utf-8", (err) => {
+        if (err) {
+          console.error("Erreur lors de l'écriture du fichier FEC :", err);
+          return res.status(500).json({
+            message: "Erreur lors de l'écriture du fichier FEC",
+            error: err,
+          });
         }
-      );
+        fec.etat = "traité";
+        sendMissionNotification(message, fec.user, fec.user);
+        fec.save();
+        console.log("Fichier FEC mis à jour avec succès");
+        return res
+          .status(200)
+          .json({ message: "Traitement du FEC terminé avec succès" });
+      });
     });
   } catch (error) {
     console.error("Une erreur est survenue lors du traitement du FEC :", error);
