@@ -18,7 +18,13 @@ export async function exportCSVData(req, res) {
       return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
     }
 
-    const filePath = "exports/exportedMotCles.csv";
+    const exportDir = path.join(__dirname, 'exports');
+    const filePath = path.join(exportDir, 'exportedData.csv');
+
+    if (!fs.existsSync(exportDir)) {
+      fs.mkdirSync(exportDir, { recursive: true });
+    }
+
 
     const csvWriter = createObjectCsvWriter({
       path: filePath,
