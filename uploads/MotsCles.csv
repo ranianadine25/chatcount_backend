@@ -1,6 +1,6 @@
 A-JournalCode;B-JournalLib;C-EcritureNum;D-EcritureDate;E-CompteNum;F-CompteLib;G-CompAuxNum;H-CompAuxLib;I-PieceRef;J-PieceDate;H-EcritureLib;K-Debit;L-Credit;M-EcritureLet;N-DateLet;O-ValidDate;P-Montantdevise;Q-Idevise;1-Montant;2-Valeur Absolue;3-Mois;4-Trimestre;5-Semestre;6-Année;7-Racine 1;8-Libellé Racine 1;9-Racine 2;10-Libellé Racine 2;11-Racine 3;12-Libellé Racine 3;13-Racine 4;14-Libellé Racine 4;15-Racine 5;16-Libellé Racine 5;17-Bilan;18-Resultat;19-Report à nouveau;20-Trésorerie;21-Banque;22-Caisse;23-Debit/Crédit;24-Encaissements / Décaissements;25-Dettes;26-;27-;28-Espèces;29-Investissements;30-;31-;32-
 ;;;;;;;;;;;;;;;;;;;;;;;;;Capitaux;;CAPITAL ET RESERVES;;Capital;;;;;Actif;Résultat;;;;;;paiement;dois;;;Espèces;Investissements;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;Immobilisations;;;REPORT A NOUVEAU;;;;;;Passif;;;;;;;;dette;;;;investissement;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;Immobilisations;;;REPORT A NOUVEAU;;;;;;Passif;;;;;;;;dette;;;;investissement;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Stocks;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Tiers;;SUBVENTIONS D'INVESTISSEMENTS;;Stock de matières premières;;;;;;;;;;;;décaissement;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;Trésorerie;;;PROVISIONS REGLEMENTEES;;;;;;;;;;;;;encaissements;;;;;;;;

@@ -7,61 +7,58 @@ import { createObjectCsvWriter } from 'csv-writer';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import Folder from "../Models/fec.js";
+import XLSX from 'xlsx';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
 export async function exportCSVData(req, res) {
   try {
-    const csvData = await ColumnData.findOne();
+    const xlsxData = await ColumnData.findOne();
 
-    if (!csvData) {
-      return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
+    if (!xlsxData) {
+      return res.status(404).json({ message: "Aucune donnée trouvée" });
     }
 
     const exportDir = path.join(__dirname, 'exports');
-    const filePath = path.join(exportDir, 'exportedData.csv');
+    const filePath = path.join(exportDir, 'exportedData.xlsx');
 
     if (!fs.existsSync(exportDir)) {
       fs.mkdirSync(exportDir, { recursive: true });
     }
 
-    const csvWriter = createObjectCsvWriter({
-      path: filePath,
-      header: csvData.titre
-        .split(";")
-        .map((column) => ({ id: column, title: column })),
+    const headers = xlsxData.titre.split(";");
+    const rows = xlsxData.contenu.map((row) => {
+      return row.split(";");
     });
 
-    await csvWriter.writeRecords(
-      csvData.contenu.map((row) => {
-        const rowData = {};
-        row.split(";").forEach((value, index) => {
-          rowData[csvData.titre.split(";")[index]] = value;
-        });
-        return rowData;
-      })
-    );
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
 
-    res.download(filePath, "exportedData.csv", (err) => {
+    XLSX.writeFile(workbook, filePath);
+
+    res.download(filePath, "exportedData.xlsx", (err) => {
       if (err) {
-        console.error("Error sending CSV file:", err);
-        res.status(500).json({ message: "Erreur lors de l'envoi du fichier CSV" });
+        console.error("Error sending XLSX file:", err);
+        res.status(500).json({ message: "Erreur lors de l'envoi du fichier XLSX" });
       } else {
-        console.log("CSV file sent successfully");
+        console.log("XLSX file sent successfully");
         try {
           fs.unlinkSync(filePath);
-          console.log("CSV file deleted successfully");
+          console.log("XLSX file deleted successfully");
         } catch (unlinkError) {
-          console.error("Error deleting CSV file:", unlinkError);
+          console.error("Error deleting XLSX file:", unlinkError);
         }
       }
     });
   } catch (error) {
-    console.error("Error exporting CSV data:", error);
-    res.status(500).json({ message: "Erreur lors de l'exportation des données CSV" });
+    console.error("Error exporting XLSX data:", error);
+    res.status(500).json({ message: "Erreur lors de l'exportation des données XLSX" });
   }
-}export async function exportFecData(req, res) {
+}
+export async function exportFecData(req, res) {
   try {
     const fecId = req.params.fecId;
 
