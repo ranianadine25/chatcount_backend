@@ -120,9 +120,9 @@ export async function importpatternsDatas(req, res) {
 
   let filePath;
   if (fileName) {
-    filePath = "uploads/" + fileName;
+    filePath = "/uploads/" + fileName;
   } else {
-    filePath = "uploads/questions.csv";
+    filePath = "/uploads/questions.csv";
   }
 
   const columns = {};
@@ -195,7 +195,7 @@ export async function insertPatternData(req, res) {
     );
     const csvRow = nonEmptyValues.join(";") + "\n";
 
-    fs.appendFile("uploads/questions.csv", csvRow, (err) => {
+    fs.appendFile("/uploads/questions.csv", csvRow, (err) => {
       if (err) {
         console.error("Erreur lors de l'écriture dans le fichier CSV :", err);
         return res.status(500).json({
@@ -216,7 +216,7 @@ export async function insertPatternData(req, res) {
         "Une erreur est survenue lors de l'insertion de la nouvelle ligne.",
     });
   }
-  await importStatiqueData("uploads/questions.csv");
+  await importStatiqueData("/uploads/questions.csv");
 }
 
 export async function deletePatternData(req, res) {
@@ -236,7 +236,7 @@ export async function deletePatternData(req, res) {
       });
     }
 
-    const csvPath = "uploads/questions.csv";
+    const csvPath = "/uploads/questions.csv";
 
     // Lecture du fichier CSV
     let csvContent = fs.readFileSync(csvPath, "utf-8");
@@ -310,7 +310,7 @@ export async function deletePatternData(req, res) {
 export async function updatePatternData(req, res) {
   try {
     const { rowIndex, columnIndex, newValue } = req.body;
-    const csvPath = "uploads/questions.csv";
+    const csvPath = "/uploads/questions.csv";
 
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const lines = csvContent.split("\n");

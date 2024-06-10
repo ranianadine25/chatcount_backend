@@ -74,7 +74,7 @@ export async function importCSVData(req, res) {
 
   let filePath;
   if (fileName) {
-    filePath = path.join("uploads", fileName);
+    filePath = path.join("/uploads", fileName);
     console.log(`Using provided file: ${filePath}`);
   }
 
@@ -192,7 +192,7 @@ export async function insertData(req, res) {
     const newRow = new Synonyme(newRowData);
     await newRow.save();
     const csvRow = Object.values(newRowData).join(";") + "\n";
-    fs.appendFile("uploads/Synonymes.csv", csvRow, (err) => {
+    fs.appendFile("/uploads/Synonymes.csv", csvRow, (err) => {
       if (err) {
         console.error("Erreur lors de l'écriture dans le fichier CSV :", err);
         return res.status(500).json({
@@ -213,12 +213,12 @@ export async function insertData(req, res) {
         "Une erreur est survenue lors de l'insertion de la nouvelle ligne.",
     });
   }
-  await importStatiqueData("uploads/Synonymes.csv");
+  await importStatiqueData("/uploads/Synonymes.csv");
 }
 export async function deleteCsvData(req, res) {
   try {
     const { rowIndex, columnIndex } = req.body;
-    const csvPath = "uploads/Synonymes.csv";
+    const csvPath = "/uploads/Synonymes.csv";
 
     let csvContent = fs.readFileSync(csvPath, "utf-8");
     let lines = csvContent.split("\n");
@@ -252,7 +252,7 @@ export async function deleteCsvData(req, res) {
 export async function updateCsvData(req, res) {
   try {
     const { rowIndex, columnIndex, newValue } = req.body;
-    const csvPath = "uploads/Synonymes.csv";
+    const csvPath = "/uploads/Synonymes.csv";
 
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const lines = csvContent.split("\n");
@@ -300,7 +300,7 @@ export async function updateCsvData(req, res) {
 export async function updateTitleData(req, res) {
   try {
     const { columnIndex, newValue } = req.body;
-    const csvPath = "uploads/Synonymes.csv";
+    const csvPath = "/uploads/Synonymes.csv";
 
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const lines = csvContent.split("\n");
@@ -338,7 +338,7 @@ export async function updateTitleData(req, res) {
 export async function updateCsvDataColonne(req, res) {
   try {
     const { newColumn } = req.body;
-    const csvPath = "uploads/Synonymes.csv";
+    const csvPath = "/uploads/Synonymes.csv";
 
     let csvContent = fs.readFileSync(csvPath, "utf-8");
 
