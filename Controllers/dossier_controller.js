@@ -476,7 +476,7 @@ export async function lancerTraitement(req, res) {
 
     const fecData = fec.data;
 
-    const csvFilePath = path.join("/uploads", fec.name);
+    const csvFilePath = path.join("./uploads", fec.name);
     fs.readFile(csvFilePath, "utf-8", (err, data) => {
       if (err) {
         console.error("Erreur lors du chargement du fichier FEC :", err);
@@ -753,11 +753,11 @@ export async function lancerTraitement(req, res) {
         }
       }
 
-      // if (isAchat) {
+    if (isAchat) {
       for (let i = 1; i < rowsFEC.length; i++) {
-        rowsFEC[i][labelsFEC.indexOf("25-Dettes")] = "";
+        rowsFEC[i][labelsFEC.indexOf("25-Dettes")] = "dettes";
       }
-      // }
+    }
       // Identifier les écritures de ventes
       let isVente = false;
       for (let i = 1; i < rowsFEC.length; i++) {

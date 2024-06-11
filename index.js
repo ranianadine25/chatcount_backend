@@ -25,7 +25,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://www.chatcount.ai",
+    origin: "http://localhost:4200",
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -60,7 +60,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://www.chatcount.ai",
+    origin: "http://localhost:4200",
     methods: ["GET", "POST", "DELETE", "PATCH", "PUT", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
@@ -153,7 +153,7 @@ io.on("connection", async (socket) => {
 
       pythonProcess = spawn(
         "python",
-        ["./similarity.py", fecName, "/uploads/"],
+        ["./similarity.py", fecName, "uploads/"],
         { encoding: "utf-8" }
       );
 
