@@ -24,13 +24,14 @@ export async function exportCSVData(req, res) {
     if (!fs.existsSync(exportDir)) {
       fs.mkdirSync(exportDir, { recursive: true });
     }
-
+    
 
     const csvWriter = createObjectCsvWriter({
       path: filePath,
       header: csvData.titre
         .split(";")
         .map((column) => ({ id: column, title: column })),
+      fieldDelimiter: ';', // Ajout du délimiteur de champ point-virgule
     });
 
     await csvWriter.writeRecords(
@@ -45,27 +46,28 @@ export async function exportCSVData(req, res) {
 
     res.download(filePath, "exportedData.csv", (err) => {
       if (err) {
-        console.error("Error sending CSV file:", err);
+        console.error("Erreur lors de l'envoi du fichier CSV :", err);
         res
           .status(500)
           .json({ message: "Erreur lors de l'envoi du fichier CSV" });
       } else {
-        console.log("CSV file sent successfully");
+        console.log("Fichier CSV envoyé avec succès");
         try {
           fs.unlinkSync(filePath);
-          console.log("CSV file deleted successfully");
+          console.log("Fichier CSV supprimé avec succès");
         } catch (unlinkError) {
-          console.error("Error deleting CSV file:", unlinkError);
+          console.error("Erreur lors de la suppression du fichier CSV :", unlinkError);
         }
       }
     });
   } catch (error) {
-    console.error("Error exporting CSV data:", error);
+    console.error("Erreur lors de l'exportation des données CSV :", error);
     res
       .status(500)
       .json({ message: "Erreur lors de l'exportation des données CSV" });
   }
 }
+
 
 export async function importStatiqueData(filePath) {
   try {

@@ -1,8 +1,8 @@
-Décaissement;Encaissement;banques;Ventes;MASSE;SALARIALE;Sécurité;sociale;Investissements;Travaux;Fournitures;non;stockables;Dettes;Taxes
-Paiement;Encaissé;banque;Vente;Salariés;URSSAF;Immobilisations;Aménagement;energie;dette;Taxe;;;;
-Paiements;Encaissements;;Chiffre;d’affaires;Charges;de;personnel;;Investis;agencements;eau;dois;Impot;
-Décaissé;;;Honoraire;;;Immos;;edf;;Impôts;;;;
-payé;;;Prestations;;;Immobilisations;incorporelles;;;gaz;;Impôts;;
+Decaissement;Encaissement;banques;Ventes;MASSE;SALARIALE;Securite;sociale;Investissements;Travaux;Fournitures;non;stockables;Dettes;Taxes
+Paiement;Encaisse;banque;Vente;Salaries;URSSAF;Immobilisations;Amenagement;energie;dette;Taxe;;;;
+Paiements;Encaissements;;Chiffre;d'affaires;Charges;de;personnel;;Investis;agencements;eau;dois;Impot;
+Decaisse;Honoraire;;;Immos;;edf;;Impots;;;;
+paye;;;Prestations;;;Immobilisations;incorporelles;;;gaz;;Impots;;
 Decaissements;;;CA;;;Immos;incorpo;;;;;;;
 decaissement;;;Chiffre d'affaire;;;;;;;;;;;
 ;;;Chiffre d'affaires;;;;;;;;;;;

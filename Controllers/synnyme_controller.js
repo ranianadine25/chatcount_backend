@@ -10,7 +10,6 @@ import synonyme from "../Models/synonyme.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 export async function exportCSVData(req, res) {
   try {
     const csvData = await Synonyme.findOne();
@@ -32,6 +31,7 @@ export async function exportCSVData(req, res) {
       header: csvData.titre
         .split(";")
         .map((column) => ({ id: column, title: column })),
+      fieldDelimiter: ';' // Ajout du délimiteur de champ point-virgule
     });
 
     await csvWriter.writeRecords(
@@ -46,22 +46,22 @@ export async function exportCSVData(req, res) {
 
     res.download(filePath, "exportedData.csv", (err) => {
       if (err) {
-        console.error("Error sending CSV file:", err);
+        console.error("Erreur lors de l'envoi du fichier CSV :", err);
         res
           .status(500)
           .json({ message: "Erreur lors de l'envoi du fichier CSV" });
       } else {
-        console.log("CSV file sent successfully");
+        console.log("Fichier CSV envoyé avec succès");
         try {
           fs.unlinkSync(filePath);
-          console.log("CSV file deleted successfully");
+          console.log("Fichier CSV supprimé avec succès");
         } catch (unlinkError) {
-          console.error("Error deleting CSV file:", unlinkError);
+          console.error("Erreur lors de la suppression du fichier CSV :", unlinkError);
         }
       }
     });
   } catch (error) {
-    console.error("Error exporting CSV data:", error);
+    console.error("Erreur lors de l'exportation des données CSV :", error);
     res
       .status(500)
       .json({ message: "Erreur lors de l'exportation des données CSV" });

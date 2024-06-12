@@ -11,56 +11,62 @@ import XLSX from "xlsx";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 export async function exportCSVData(req, res) {
   try {
-    const xlsxData = await ColumnData.findOne();
-
-    if (!xlsxData) {
-      return res.status(404).json({ message: "Aucune donnée trouvée" });
+    const csvData = await ColumnData.findOne();
+    if (!csvData) {
+      return res.status(404).json({ message: "Aucune donnée CSV trouvée" });
     }
 
-    const exportDir = path.join(__dirname, "exports");
-    const filePath = path.join(exportDir, "exportedData.xlsx");
+    const exportDir = path.join(__dirname, 'exports');
+    const filePath = path.join(exportDir, 'exportedData.csv');
 
     if (!fs.existsSync(exportDir)) {
       fs.mkdirSync(exportDir, { recursive: true });
     }
 
-    const headers = xlsxData.titre.split(";");
-    const rows = xlsxData.contenu.map((row) => {
-      return row.split(";");
+    const csvWriter = createObjectCsvWriter({
+      path: filePath,
+      header: csvData.titre
+        .split(";")
+        .map((column) => ({ id: column, title: column })),
+      fieldDelimiter: ';', // Ajout du délimiteur de champ point-virgule
     });
 
-    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+    await csvWriter.writeRecords(
+      csvData.contenu.map((row) => {
+        const rowData = {};
+        row.split(";").forEach((value, index) => {
+          rowData[csvData.titre.split(";")[index]] = value;
+        });
+        return rowData;
+      })
+    );
 
-    XLSX.writeFile(workbook, filePath);
-
-    res.download(filePath, "exportedData.xlsx", (err) => {
+    res.download(filePath, "exportedData.csv", (err) => {
       if (err) {
-        console.error("Error sending XLSX file:", err);
+        console.error("Erreur lors de l'envoi du fichier CSV :", err);
         res
           .status(500)
-          .json({ message: "Erreur lors de l'envoi du fichier XLSX" });
+          .json({ message: "Erreur lors de l'envoi du fichier CSV" });
       } else {
-        console.log("XLSX file sent successfully");
+        console.log("Fichier CSV envoyé avec succès");
         try {
           fs.unlinkSync(filePath);
-          console.log("XLSX file deleted successfully");
+          console.log("Fichier CSV supprimé avec succès");
         } catch (unlinkError) {
-          console.error("Error deleting XLSX file:", unlinkError);
+          console.error("Erreur lors de la suppression du fichier CSV :", unlinkError);
         }
       }
     });
   } catch (error) {
-    console.error("Error exporting XLSX data:", error);
+    console.error("Erreur lors de l'exportation des données CSV :", error);
     res
       .status(500)
-      .json({ message: "Erreur lors de l'exportation des données XLSX" });
+      .json({ message: "Erreur lors de l'exportation des données CSV" });
   }
 }
+
 export async function exportFecData(req, res) {
   try {
     const fecId = req.params.fecId;
@@ -79,7 +85,7 @@ export async function exportFecData(req, res) {
     }
 
     // Vérification de l'existence du chemin du fichier CSV
-    const csvFilePath = path.join("./uploads", csvData.name);
+    const csvFilePath = path.join("/uploads", csvData.name);
     if (!fs.existsSync(csvFilePath)) {
       console.error("Le fichier CSV spécifié n'existe pas");
       return res

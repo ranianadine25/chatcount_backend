@@ -51,17 +51,17 @@ export async function createFolder(req, res) {
     if (existingFolder) {
       return res
         .status(409)
-        .json({ message: "Le nom du dossier existe déjà." });
+        .json({ message: "Le nom du dossier existe dejà." });
     }
 
     const folder = new Folder({ name, user: userId });
     await folder.save();
 
-    res.status(201).json({ message: "Dossier créé avec succès", folder });
+    res.status(201).json({ message: "Dossier cree avec succès", folder });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la création du dossier",
+      message: "Une erreur est survenue lors de la creation du dossier",
       error,
     });
   }
@@ -75,7 +75,7 @@ export async function getFolders(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la récupération des dossiers",
+      message: "Une erreur est survenue lors de la recuperation des dossiers",
       error,
     });
   }
@@ -83,12 +83,12 @@ export async function getFolders(req, res) {
 export async function getFecbyState(req, res) {
   try {
     const userId = req.params.userId;
-    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoyé en tant que paramètre de requête
-    const state = req.params.etat; // Récupérer l'état à partir de la requête
+    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoye en tant que paramètre de requête
+    const state = req.params.etat; // Recuperer l'etat à partir de la requête
 
     const query = { user: userId, folder: folderId }; // Filtrer par utilisateur et dossier
     if (state) {
-      query.etat = state; // Filtrer par état si l'état est fourni
+      query.etat = state; // Filtrer par etat si l'etat est fourni
     }
 
     const fecs = await FecModel.find(query);
@@ -97,7 +97,7 @@ export async function getFecbyState(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la récupération des FEC",
+      message: "Une erreur est survenue lors de la recuperation des FEC",
       error,
     });
   }
@@ -107,11 +107,11 @@ export async function getFolderById(req, res) {
   try {
     const folderId = req.params.folderId;
     const folder = await Folder.findById(folderId);
-    res.status(200).json({ message: "Dossier récupéré avec succès", folder });
+    res.status(200).json({ message: "Dossier recupere avec succès", folder });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la récupération du dossier",
+      message: "Une erreur est survenue lors de la recuperation du dossier",
       error,
     });
   }
@@ -143,7 +143,7 @@ export async function deleteFolder(req, res) {
   try {
     const folderId = req.params.folderId;
     await Folder.findByIdAndDelete(folderId);
-    res.status(200).json({ message: "Dossier supprimé avec succès" });
+    res.status(200).json({ message: "Dossier supprime avec succès" });
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -158,16 +158,16 @@ export async function recupFolderName(req, res) {
 
     const folder = await Folder.findById(folderId);
     if (!folder) {
-      console.error("Dossier non trouvé.");
-      return res.status(404).json({ message: "Dossier non trouvé." });
+      console.error("Dossier non trouve.");
+      return res.status(404).json({ message: "Dossier non trouve." });
     }
 
     console.log("Nom du dossier:", folder.name);
     return res.status(200).send({ folderName: folder.name });
   } catch (error) {
-    console.error("Erreur lors de la récupération du nom du dossier :", error);
+    console.error("Erreur lors de la recuperation du nom du dossier :", error);
     return res.status(500).json({
-      message: "Erreur lors de la récupération du nom du dossier",
+      message: "Erreur lors de la recuperation du nom du dossier",
       error,
     });
   }
@@ -177,23 +177,23 @@ export async function uploadFec(req, res) {
   try {
     const uploadedFile = req.file;
     const userId = req.params.userId;
-    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoyé dans le corps de la requête
+    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoye dans le corps de la requête
 
     if (!uploadedFile) {
       return res
         .status(403)
-        .json({ message: "Aucun fichier n'a été uploadé." });
+        .json({ message: "Aucun fichier n'a ete uploade." });
     }
 
     const existingFec = await FecModel.findOne({
       name: uploadedFile.originalname,
       user: userId,
-      folder: folderId, // Vérifier si un FEC avec le même nom existe déjà dans ce dossier
+      folder: folderId, // Verifier si un FEC avec le même nom existe dejà dans ce dossier
     });
 
     if (existingFec) {
       return res.status(409).json({
-        message: "Un fichier avec le même nom existe déjà dans ce dossier.",
+        message: "Un fichier avec le même nom existe dejà dans ce dossier.",
         fecId: existingFec._id,
       });
     }
@@ -204,14 +204,14 @@ export async function uploadFec(req, res) {
       name: uploadedFile.originalname,
       data: processedData,
       user: userId,
-      folder: folderId, // Associer le FEC au dossier spécifié
+      folder: folderId, // Associer le FEC au dossier specifie
     };
 
     const fec = new FecModel(fecData);
     await fec.save();
 
     return res.status(300).json({
-      message: "Fichier uploadé et traité avec succès!",
+      message: "Fichier uploade et traite avec succès!",
       fecId: fec._id,
     });
   } catch (error) {
@@ -245,14 +245,14 @@ async function processCsvFile(req, res) {
 
 // Fonction pour traiter chaque ligne du fichier CSV
 function processRow(row) {
-  // Implémenter votre logique pour manipuler les données de chaque ligne
-  // Vous pouvez accéder aux valeurs individuelles en utilisant row['
+  // Implementer votre logique pour manipuler les donnees de chaque ligne
+  // Vous pouvez acceder aux valeurs individuelles en utilisant row['
   return row;
 }
 export async function getFec(req, res) {
   try {
     const userId = req.params.userId;
-    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoyé en tant que paramètre de requête
+    const folderId = req.params.folderId; // Supposons que l'ID du dossier soit envoye en tant que paramètre de requête
 
     const query = { user: userId };
     if (folderId) {
@@ -265,7 +265,7 @@ export async function getFec(req, res) {
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "Une erreur est survenue lors de la récupération des FEC",
+      message: "Une erreur est survenue lors de la recuperation des FEC",
       error,
     });
   }
@@ -275,7 +275,7 @@ export async function replaceFile(req, res) {
   try {
     const existingFecId = req.params.existingFecId;
     const uploadedFile = req.file;
-    const folderId = req.body.folderId; // Supposons que l'ID du dossier soit envoyé dans le corps de la requête
+    const folderId = req.body.folderId; // Supposons que l'ID du dossier soit envoye dans le corps de la requête
 
     const existingFec = await FecModel.findById(existingFecId);
     if (!existingFec) {
@@ -285,14 +285,14 @@ export async function replaceFile(req, res) {
     }
 
     existingFec.name = uploadedFile.originalname;
-    existingFec.data = await processCsvFile(req, res); // Assurez-vous d'avoir la fonction processCsvFile définie
+    existingFec.data = await processCsvFile(req, res); // Assurez-vous d'avoir la fonction processCsvFile definie
     existingFec.folder = folderId; // Mettre à jour le dossier parent
 
     await existingFec.save();
 
     return res
       .status(200)
-      .json({ message: "Fichier FEC remplacé avec succès!" });
+      .json({ message: "Fichier FEC remplace avec succès!" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -320,7 +320,7 @@ export async function deleteFec(req, res) {
 
     return res
       .status(200)
-      .json({ message: "Fichier FEC supprimé avec succès du dossier!" });
+      .json({ message: "Fichier FEC supprime avec succès du dossier!" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -332,7 +332,7 @@ export async function deleteFec(req, res) {
 }
 function replaceSpecial(string) {
   if (typeof string === "string") {
-    return string.replace(/[éèê]/g, "e").replace(/[àâ]/g, "a");
+    return string.replace(/[eèê]/g, "e").replace(/[àâ]/g, "a");
   }
   return string;
 }
@@ -407,23 +407,23 @@ export async function lancerTraitement(req, res) {
       "5-Semestre",
       "6-Annee",
       "7-Racine 1",
-      "8-Libellé Racine 1",
+      "8-Libelle Racine 1",
       "9-Racine 2",
-      "10-Libellé Racine 2",
+      "10-Libelle Racine 2",
       "11-Racine 3",
-      "12-Libellé Racine 3",
+      "12-Libelle Racine 3",
       "13-Racine 4",
-      "14-Libellé Racine 4",
+      "14-Libelle Racine 4",
       "15-Racine 5",
-      "16-Libellé Racine 5",
+      "16-Libelle Racine 5",
       "17-Bilan",
       "18-Resultat",
-      "19-Report à nouveau",
-      "20-Trésorerie",
+      "19-Report a nouveau",
+      "20-Tresorerie",
       "21-Banque",
       "22-Caisse",
-      "23-Debit/Crédit",
-      "24-Encaissements / Décaissements",
+      "23-Debit/Credit",
+      "24-Encaissements / Decaissements",
       "25-Dettes",
       "26-",
       "27-",
@@ -435,10 +435,10 @@ export async function lancerTraitement(req, res) {
 
     const fec = await FecModel.findById(fecId);
 
-    let message = ` a lancé le traitement du fec`;
+    let message = ` a lance le traitement du fec`;
 
     if (fec && fec.name) {
-      message = ` a lancé le traitement du fec ${fec.name}`;
+      message = ` a lance le traitement du fec ${fec.name}`;
     }
 
     const racineLibelle1MappingFromDB = await label1.find();
@@ -476,7 +476,7 @@ export async function lancerTraitement(req, res) {
 
     const fecData = fec.data;
 
-    const csvFilePath = path.join("./uploads", fec.name);
+    const csvFilePath = path.join("/uploads", fec.name);
     fs.readFile(csvFilePath, "utf-8", (err, data) => {
       if (err) {
         console.error("Erreur lors du chargement du fichier FEC :", err);
@@ -495,23 +495,23 @@ export async function lancerTraitement(req, res) {
         if (row.length === 1 && row[0] === "") continue;
 
         if (i === 0) {
-          // Détection des colonnes existantes à partir de "1-Montant"
+          // Detection des colonnes existantes à partir de "1-Montant"
           const existingColumnsIndex = row.findIndex((label) =>
             label.startsWith("1-Montant")
           );
 
           if (existingColumnsIndex !== -1) {
-            // Si des colonnes existantes sont détectées, les supprimer et les remplacer par les nouvelles colonnes
+            // Si des colonnes existantes sont detectees, les supprimer et les remplacer par les nouvelles colonnes
             labelsFEC = [
               ...row.slice(0, existingColumnsIndex), // Colonnes avant "1-Montant"
               ...row.slice(existingColumnsIndex + 32), // Colonnes après les colonnes existantes
             ];
           } else {
-            // Sinon, simplement utiliser les étiquettes telles quelles
+            // Sinon, simplement utiliser les etiquettes telles quelles
             labelsFEC = row;
           }
 
-          // Filtrer les colonnes pour ne conserver que celles autorisées
+          // Filtrer les colonnes pour ne conserver que celles autorisees
           labelsFEC = labelsFEC.filter((col) => allowedColumns.includes(col));
           labelsFEC.push(
             "1-Montant",
@@ -521,23 +521,23 @@ export async function lancerTraitement(req, res) {
             "5-Semestre",
             "6-Annee",
             "7-Racine 1",
-            "8-Libellé Racine 1",
+            "8-Libelle Racine 1",
             "9-Racine 2",
-            "10-Libellé Racine 2",
+            "10-Libelle Racine 2",
             "11-Racine 3",
-            "12-Libellé Racine 3",
+            "12-Libelle Racine 3",
             "13-Racine 4",
-            "14-Libellé Racine 4",
+            "14-Libelle Racine 4",
             "15-Racine 5",
-            "16-Libellé Racine 5",
+            "16-Libelle Racine 5",
             "17-Bilan",
             "18-Resultat",
-            "19-Report à nouveau",
-            "20-Trésorerie",
+            "19-Report a nouveau",
+            "20-Tresorerie",
             "21-Banque",
             "22-Caisse",
-            "23-Debit/Crédit",
-            "24-Encaissements / Décaissements",
+            "23-Debit/Credit",
+            "24-Encaissements / Decaissements",
             "25-Dettes",
             "26-",
             "27-",
@@ -595,61 +595,73 @@ export async function lancerTraitement(req, res) {
             const racine3 = compteComptable.substring(0, 3);
             const racine4 = compteComptable.substring(0, 4);
             const racine5 = compteComptable.substring(0, 5);
-        
+
             rowsFEC[i][labelsFEC.indexOf("7-Racine 1")] = racine1;
             const racine1Label = racineLibelle1MappingDB[racine1];
-        
-            // Vérifiez que la colonne "9-Racine 2" existe
+
+            // Verifiez que la colonne "9-Racine 2" existe
             const racine2Index = labelsFEC.indexOf("9-Racine 2");
             if (racine2Index !== -1) {
               rowsFEC[i][racine2Index] = racine2;
               const racine2Label = racineLibelle2MappingDB[racine2];
               if (racine2Label !== undefined) {
-                const racine2LibelleIndex = labelsFEC.indexOf("10-Libellé Racine 2");
+                const racine2LibelleIndex = labelsFEC.indexOf(
+                  "10-Libelle Racine 2"
+                );
                 if (racine2LibelleIndex !== -1) {
-                  rowsFEC[i][racine2LibelleIndex] = replaceSpecial(racine2Label);
+                  rowsFEC[i][racine2LibelleIndex] =
+                    replaceSpecial(racine2Label);
                 }
               }
             }
-        
+
             const racine3Index = labelsFEC.indexOf("11-Racine 3");
             if (racine3Index !== -1) {
               rowsFEC[i][racine3Index] = racine3;
               const racine3Label = racineLibelle3MappingDB[racine3];
               if (racine3Label !== undefined) {
-                const racine3LibelleIndex = labelsFEC.indexOf("12-Libellé Racine 3");
+                const racine3LibelleIndex = labelsFEC.indexOf(
+                  "12-Libelle Racine 3"
+                );
                 if (racine3LibelleIndex !== -1) {
-                  rowsFEC[i][racine3LibelleIndex] = replaceSpecial(racine3Label);
+                  rowsFEC[i][racine3LibelleIndex] =
+                    replaceSpecial(racine3Label);
                 }
               }
             }
-        
+
             const racine4Index = labelsFEC.indexOf("13-Racine 4");
             if (racine4Index !== -1) {
               rowsFEC[i][racine4Index] = racine4;
               const racine4Label = racineLibelle4MappingDB[racine4];
               if (racine4Label !== undefined) {
-                const racine4LibelleIndex = labelsFEC.indexOf("14-Libellé Racine 4");
+                const racine4LibelleIndex = labelsFEC.indexOf(
+                  "14-Libelle Racine 4"
+                );
                 if (racine4LibelleIndex !== -1) {
-                  rowsFEC[i][racine4LibelleIndex] = replaceSpecial(racine4Label);
+                  rowsFEC[i][racine4LibelleIndex] =
+                    replaceSpecial(racine4Label);
                 }
               }
             }
-        
+
             const racine5Index = labelsFEC.indexOf("15-Racine 5");
             if (racine5Index !== -1) {
               rowsFEC[i][racine5Index] = racine5;
               const racine5Label = racineLibelle5MappingDB[racine5];
               if (racine5Label !== undefined) {
-                const racine5LibelleIndex = labelsFEC.indexOf("16-Libellé Racine 5");
+                const racine5LibelleIndex = labelsFEC.indexOf(
+                  "16-Libelle Racine 5"
+                );
                 if (racine5LibelleIndex !== -1) {
-                  rowsFEC[i][racine5LibelleIndex] = replaceSpecial(racine5Label);
+                  rowsFEC[i][racine5LibelleIndex] =
+                    replaceSpecial(racine5Label);
                 }
               }
             }
           }
         }
-        
+
         rowsFEC[i][labelsFEC.indexOf("21-Banque")] = "";
         rowsFEC[i][labelsFEC.indexOf("22-Caisse")] = "";
         rowsFEC[i][labelsFEC.indexOf("32-")] = "";
@@ -668,7 +680,7 @@ export async function lancerTraitement(req, res) {
         }
 
         const debitCreditD = credit === 0 ? "D" : "C";
-        rowsFEC[i][labelsFEC.indexOf("23-Debit/Crédit")] =
+        rowsFEC[i][labelsFEC.indexOf("23-Debit/Credit")] =
           replaceSpecial(debitCreditD);
       }
 
@@ -717,14 +729,14 @@ export async function lancerTraitement(req, res) {
         (row) => row[labelsFEC.indexOf("CompteNum")]
       );
       const debitCredit = rowsFEC.map(
-        (row) => row[labelsFEC.indexOf("23-Debit/Crédit")]
+        (row) => row[labelsFEC.indexOf("23-Debit/Credit")]
       );
 
       for (let i = 1; i < rowsFEC.length; i++) {
         const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
         const journalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
 
-        // Vérifier si le compte est un compte fournisseur (401) et n'est pas catégorisé comme trésorerie
+        // Verifier si le compte est un compte fournisseur (401) et n'est pas categorise comme tresorerie
         if (
           compteNum.startsWith("401") &&
           debitCredit[i] === "C" &&
@@ -733,7 +745,7 @@ export async function lancerTraitement(req, res) {
           isAchat = true;
         }
 
-        // Vérifier si le compte est 60, 61 ou 62 en racine 2 et au débit
+        // Verifier si le compte est 60, 61 ou 62 en racine 2 et au debit
         if (
           (compteNum.startsWith("60") ||
             compteNum.startsWith("61") ||
@@ -743,7 +755,7 @@ export async function lancerTraitement(req, res) {
           isAchat = true;
         }
 
-        // Vérifier si le journal a un code AC, ACH, FG, etc.
+        // Verifier si le journal a un code AC, ACH, FG, etc.
         if (
           journalCode === "AC" ||
           journalCode === "ACH" ||
@@ -753,12 +765,12 @@ export async function lancerTraitement(req, res) {
         }
       }
 
-    if (isAchat) {
-      for (let i = 1; i < rowsFEC.length; i++) {
-        rowsFEC[i][labelsFEC.indexOf("25-Dettes")] = "dettes";
+      if (isAchat) {
+        for (let i = 1; i < rowsFEC.length; i++) {
+          rowsFEC[i][labelsFEC.indexOf("25-Dettes")] = "dettes";
+        }
       }
-    }
-      // Identifier les écritures de ventes
+      // Identifier les ecritures de ventes
       let isVente = false;
       for (let i = 1; i < rowsFEC.length; i++) {
         const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
@@ -766,7 +778,7 @@ export async function lancerTraitement(req, res) {
         const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Debit")]);
         const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Credit")]);
 
-        // Vérifier si le compte est un compte client (411) ou une remise à l'encaissement (53) ou de la caisse, et n'est pas catégorisé comme trésorerie
+        // Verifier si le compte est un compte client (411) ou une remise à l'encaissement (53) ou de la caisse, et n'est pas categorise comme tresorerie
         if (
           (compteNum.startsWith("411") ||
             compteNum.startsWith("53") ||
@@ -777,12 +789,12 @@ export async function lancerTraitement(req, res) {
           isVente = true;
         }
 
-        // Vérifier si le compte est 70 en racine 2 et au débit
+        // Verifier si le compte est 70 en racine 2 et au debit
         if (compteNum.startsWith("70") && debitCredit[i] === "D") {
           isVente = true;
         }
 
-        // Vérifier si le journal a un code VE, CA, etc.
+        // Verifier si le journal a un code VE, CA, etc.
         if (journalCode === "VE" || journalCode === "CA") {
           isVente = true;
         }
@@ -799,18 +811,18 @@ export async function lancerTraitement(req, res) {
         const racineIndex = labelsFEC.indexOf("8-Libelle Racine 1");
         const racine2 =
           racineIndex !== -1 ? rowsFEC[i][racineIndex].slice(0, 2) : "";
-       // const racine3 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 3);
+        // const racine3 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 3);
 
-        // Vérifier si l'écriture est une opération diverse
+        // Verifier si l'ecriture est une operation diverse
         // if (
-        //   racine1 !== "5" && // Exclure les écritures liées aux ventes
-        //   racine1 !== "6" && // Exclure les écritures liées aux achats
-        //   racine2 !== "53" && // Exclure les écritures liées aux remises à l'encaissement
-        //   racine2 !== "41" && // Exclure les écritures liées aux comptes clients
-        //   racine2 !== "51" && // Exclure les écritures liées aux comptes fournisseurs
-        //   racine3 !== "512" // Exclure les écritures liées aux comptes bancaires
+        //   racine1 !== "5" && // Exclure les ecritures liees aux ventes
+        //   racine1 !== "6" && // Exclure les ecritures liees aux achats
+        //   racine2 !== "53" && // Exclure les ecritures liees aux remises à l'encaissement
+        //   racine2 !== "41" && // Exclure les ecritures liees aux comptes clients
+        //   racine2 !== "51" && // Exclure les ecritures liees aux comptes fournisseurs
+        //   racine3 !== "512" // Exclure les ecritures liees aux comptes bancaires
         // ) {
-        rowsFEC[i][labelsFEC.indexOf("27-")] = ""; // Marquer l'écriture comme étant dans le journal d'opérations diverses
+        rowsFEC[i][labelsFEC.indexOf("27-")] = ""; // Marquer l'ecriture comme etant dans le journal d'operations diverses
         // } else {
         //   rowsFEC[i][labelsFEC.indexOf("27-Journal d'operations diverses")] =
         //     "";
@@ -849,13 +861,13 @@ export async function lancerTraitement(req, res) {
         const montant = parseFloat(rowsFEC[i][labelsFEC.indexOf("1-Montant")]);
 
         if (montant < 0) {
-          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Décaissements")] =
+          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Decaissements")] =
             "Encaissements";
         } else if (montant > 0) {
-          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Décaissements")] =
-            "Décaissements";
+          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Decaissements")] =
+            "Decaissements";
         } else {
-          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Décaissements")] =
+          rowsFEC[i][labelsFEC.indexOf("24-Encaissements / Decaissements")] =
             "";
         }
       }
@@ -865,19 +877,19 @@ export async function lancerTraitement(req, res) {
       ].join("\n");
       fs.writeFile(csvFilePath, outputCsv, "utf-8", (err) => {
         if (err) {
-          console.error("Erreur lors de l'écriture du fichier FEC :", err);
+          console.error("Erreur lors de l'ecriture du fichier FEC :", err);
           return res.status(500).json({
-            message: "Erreur lors de l'écriture du fichier FEC",
+            message: "Erreur lors de l'ecriture du fichier FEC",
             error: err,
           });
         }
-        fec.etat = "traité";
+        fec.etat = "traite";
         sendMissionNotification(message, fec.user, fec.user);
         fec.save();
         console.log("Fichier FEC mis à jour avec succès");
         return res
           .status(200)
-          .json({ message: "Traitement du FEC terminé avec succès" });
+          .json({ message: "Traitement du FEC termine avec succès" });
       });
     });
   } catch (error) {
