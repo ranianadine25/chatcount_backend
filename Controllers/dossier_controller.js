@@ -883,7 +883,7 @@ export async function lancerTraitement(req, res) {
             error: err,
           });
         }
-        fec.etat = "traite";
+        fec.etat = "traité";
         sendMissionNotification(message, fec.user, fec.user);
         fec.save();
         console.log("Fichier FEC mis à jour avec succès");
