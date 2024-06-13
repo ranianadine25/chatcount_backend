@@ -236,17 +236,18 @@ def loadFEC (csv):
                     if not f in Fournisseurs:
                         Fournisseurs.append (f)
             i = i + 1
-   # for i in range (len (Fournisseurs)):
-      #  sys.stdout.write (Fournisseurs [i])
-        #if i < len (Fournisseurs) - 1:
-            #sys.stdout.write ('|')
-       #else:
+  #  for i in range (len (Fournisseurs)):
+       # sys.stdout.write (Fournisseurs [i])
+      #  if i < len (Fournisseurs) - 1:
+         #   sys.stdout.write (';')
+       # else:
            # sys.stdout.write ('\n')
 
 if (len(sys.argv) > 1):
     loadFEC (directory + sys.argv [1])
 else:
     loadFEC (directory + 'FEC-Restau.csv')
+    #loadFEC (directory + 'fec_k.csv')
 
 debug = False
 
@@ -266,6 +267,7 @@ def MotsCles (query):
     xxx = []
     mmm = []
     fff = []
+    motsClesAChercher = []
     q = replaceSpecial (query)
     for i in range (len (q)):
         startWord = False
@@ -310,12 +312,26 @@ def MotsCles (query):
                                             bestLength = len (rows [row] [lab])
                                             #mot = rows [row] [lab] probleme remplace investissements par immobilisations dans la question
                                                                     # ce qui perturbe l'embedding
-                                            mot = w
+                                            #mot = w # probleme utilise comme mot cle 'tresorerie sans les decaissements'
+                                            motCle = rows [row] [lab] # differencier le mot cle et le mot de la question
+                                            mot = motCle # par defaut
+                                            if w [:len (rows [row] [lab])] == mot: # Si le mot de la question est le meme que le mot cle on le garde comme mot de la réponse
+                                                mot = motCle
+                                            else:
+                                                # garder le plus long synonyme
+                                                bestLengthSynonyme = 0
+                                                for w2 in range (1, len (listeSynonymes)):
+                                                    if levenshteinDistance (listeSynonymes [w2], w [:len(listeSynonymes [w2])]) < 2:
+                                                        if len (listeSynonymes [w2]) > bestLengthSynonyme:
+                                                            bestLengthSynonyme = len (listeSynonymes [w2])
+                                                            mot = listeSynonymes [w2]
+                                                    
             if bestLength > 0:
                 xxx.append (mot)
+                motsClesAChercher.append (motCle)
                 if debug:
                     print (mot)
-    return xxx,mmm,fff
+    return xxx,mmm,fff,motsClesAChercher
 
 def replaceMotsCles (q, xxx, mmm, fff, vvv):
     for j in range (len (xxx)):
@@ -378,6 +394,18 @@ def synonyme (query):
                 return synonymes [i] [0].lower ()
 
     return query.lower ()
+
+def listeSynonymes (query):
+    for i in range (len (synonymes)):
+        for j in range (len (synonymes [i])):
+            if query [:len (synonymes [i] [j])].lower () == synonymes [i] [j].lower ():
+                #print (query [:len (synonymes [i] [j])], ' -> ', synonymes [i] [0].lower ())
+                l = []
+                for j in range (len (synonymes [i])):
+                    l.append (synonymes [i] [j].lower ())
+                return l
+
+    return [query.lower ()]
 
 def premierMot (query):
     w = ""
@@ -742,25 +770,28 @@ def answerQuery (query, fff = [], printAnswer = True):
                     elif query [i - 1] == ' ':
                         startWord = True
                     if startWord:
+                        #liste = listeSynonymes (query [i:])
+                        #for w in liste:
                         w = synonyme (query [i:])
-                        if len (w) >= len (rows [row] [lab]):
-                            #print (w.lower (), rows [row] [lab].lower ())
-                            if w [:len (rows [row] [lab])].lower () == rows [row] [lab].lower ():
-                            #if w == rows [row] [lab] [:len (w)].lower ():
-                                if True:
-                                    print (rows [row] [lab], row, lab, labels [lab])
-                                if not lab in listLabels:
-                                    Specifique = False
-                                    if Racine3:
-                                        if labels [lab].find ('racine 4') != -1 or labels [lab].find ('racine 5') != -1:
-                                            Specifique = True
-                                    if not Specifique:
-                                        listLabels.append (lab)
-                                        motsCles.append (rows [row] [lab])
-                                    if labels [lab].find ('racine 3') != -1:
-                                        Racine3 = True
-                                    if labels [lab].find ('montant') != -1:
-                                        indexSum = lab
+                        if True:
+                            if len (w) >= len (rows [row] [lab]):
+                                #print ( w [:len (rows [row] [lab])].lower (), rows [row] [lab].lower ())
+                                if w [:len (rows [row] [lab])].lower () == rows [row] [lab].lower ():
+                                    #if w == rows [row] [lab] [:len (w)].lower ():
+                                    if True:
+                                        print (rows [row] [lab], row, lab, labels [lab])
+                                    if not lab in listLabels:
+                                        Specifique = False
+                                        if Racine3:
+                                            if labels [lab].find ('racine 4') != -1 or labels [lab].find ('racine 5') != -1:
+                                                Specifique = True
+                                        if not Specifique:
+                                            listLabels.append (lab)
+                                            motsCles.append (rows [row] [lab])
+                                        if labels [lab].find ('racine 3') != -1:
+                                            Racine3 = True
+                                        if labels [lab].find ('montant') != -1:
+                                            indexSum = lab
 
     # recupere les fournisseurs dans la question
     for f in fff:
@@ -902,9 +933,9 @@ while (True):
         query.replace (word, correction)
     '''
     
-    xxx,mmm,fff = MotsCles (query)
-    if debug:
-        print (xxx, mmm, fff)
+    xxx,mmm,fff,motsClesAChercher = MotsCles (query)
+    if True:
+        print ('Mots cles a chercher =', motsClesAChercher, 'xxx =', xxx, 'Mois = ', mmm, 'Fournisseurs =', fff)
     besti,best,bestq = indexEmbedding (query, xxx, mmm, fff)
     if debug:
         print ('besti', besti)
@@ -915,7 +946,8 @@ while (True):
     for f in fff:
         if f.lower () in questions [besti] [1]:
             fff.remove (f)
-    q = replaceMotsCles (questions [besti] [1], xxx, mmm, fff, [])
+    #q = replaceMotsCles (questions [besti] [1], xxx, mmm, fff, [])
+    q = replaceMotsCles (questions [besti] [1], motsClesAChercher, mmm, fff, [])
     if True:
         print ('Question =', bestq, best, 'Question reformatée =', q)
     #reponsei = -1
