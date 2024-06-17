@@ -1,5 +1,5 @@
 // fecRoute.js
-
+import cors from 'cors';
 import express from "express";
 import {
   deleteFec,
@@ -13,7 +13,9 @@ import { recupFecId, recupFecName } from "../Controllers/conversation_controller
 
 const router = express.Router();
 
-router.post("/uploadCsv/:userId", upload, uploadFec);
+app.post('/uploadCsv/:userId', cors({
+  origin: 'https://www.chatcount.ai' 
+}), upload, uploadFec);
 router.get("/getCsv/:userId", getFec);
 router.get("/getFecTrait/:userId", getFecTrait);
 

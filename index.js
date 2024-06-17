@@ -72,6 +72,9 @@ app.use(
     credentials: true,
   })
 );
+app.use(cors({
+  origin: 'https://www.chatcount.ai' // Remplacez par l'origine de votre frontend
+}));
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use("/avatars", express.static("public/images"));
