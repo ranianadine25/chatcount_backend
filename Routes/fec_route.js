@@ -13,9 +13,7 @@ import { recupFecId, recupFecName } from "../Controllers/conversation_controller
 
 const router = express.Router();
 
-app.post('/uploadCsv/:userId', cors({
-  origin: 'https://www.chatcount.ai' 
-}), upload, uploadFec);
+router.post('/uploadCsv/:userId', upload, uploadFec);
 router.get("/getCsv/:userId", getFec);
 router.get("/getFecTrait/:userId", getFecTrait);
 
