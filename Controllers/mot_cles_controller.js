@@ -302,7 +302,7 @@ export async function deleteCsvData(req, res) {
 export async function updateCsvData(req, res) {
   try {
     const { rowIndex, columnIndex, newValue } = req.body;
-    const csvPath = "uploads/MotsCles.csv";
+    const csvPath = "/uploads/MotsCles.csv";
 
     const csvContent = fs.readFileSync(csvPath, "utf-8");
     const lines = csvContent.split("\n");

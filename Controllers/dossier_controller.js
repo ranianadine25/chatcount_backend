@@ -376,6 +376,34 @@ export async function sendMissionNotification(message, receivers, sender) {
     return false;
   }
 }
+function formatDate(dateString) {
+  // Vérifie si la date est au format yyyy-mm-dd et la convertit en jj/mm/yyyy
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  }
+  // Vérifie si la date est au format yyyyMMdd et la convertit en jj/mm/yyyy
+  if (/^\d{8}$/.test(dateString)) {
+    const year = dateString.substring(0, 4);
+    const month = dateString.substring(4, 6);
+    const day = dateString.substring(6, 8);
+    return `${day}/${month}/${year}`;
+  }
+  // Ajoutez ici d'autres formats de date que vous souhaitez gérer
+  return dateString;
+}
+
+function isValidDate(dateString) {
+  const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+  return regex.test(dateString);
+}
+
+function correctDate(dateString) {
+  if (!isValidDate(dateString)) {
+    return formatDate(dateString);
+  }
+  return dateString;
+}
 export async function lancerTraitement(req, res) {
   try {
     const date = Date().now;
@@ -554,7 +582,7 @@ export async function lancerTraitement(req, res) {
         }
       }
 
-      for (let i = 1; i < rowsFEC.length; i++) {
+      for (let i = 0; i < rowsFEC.length; i++) {
         const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Credit")]) || 0;
         const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Debit")]) || 0;
         const montant = credit - debit;
@@ -562,9 +590,18 @@ export async function lancerTraitement(req, res) {
         const valeurAbsolueMontant = Math.abs(montant);
         rowsFEC[i][labelsFEC.indexOf("2-Valeur Absolue")] =
           valeurAbsolueMontant.toString();
-        const ecritureDate = new Date(
-          rowsFEC[i][labelsFEC.indexOf("EcritureDate")]
-        );
+
+          let ecritureDate = rowsFEC[i][labelsFEC.indexOf("EcritureDate")];
+    
+          // Correct and validate EcritureDate
+          ecritureDate = correctDate(ecritureDate);
+          if (!isValidDate(ecritureDate)) {
+            console.error(`Date invalide pour la ligne ${i + 1}: ${ecritureDate}`);
+            return res.status(400).json({ message: `Date invalide pour la ligne ${i + 1}: ${ecritureDate}` });
+          }
+      
+          rowsFEC[i][labelsFEC.indexOf("EcritureDate")] = ecritureDate;
+      
 
         const moisNames = [
           "janvier",
@@ -587,82 +624,70 @@ export async function lancerTraitement(req, res) {
         rowsFEC[i][labelsFEC.indexOf("6-Annee")] = "";
 
         const compteComptableIndex = labelsFEC.indexOf("CompteNum");
-        if (compteComptableIndex !== -1) {
-          const compteComptable = rowsFEC[i][compteComptableIndex];
-          if (compteComptable) {
+        const compteComptable = rowsFEC[i][compteComptableIndex];
+        if (compteComptable) {
             const racine1 = compteComptable.substring(0, 1);
-            const racine2 = compteComptable.substring(0, 2);
-            const racine3 = compteComptable.substring(0, 3);
-            const racine4 = compteComptable.substring(0, 4);
-            const racine5 = compteComptable.substring(0, 5);
-
-            rowsFEC[i][labelsFEC.indexOf("7-Racine 1")] = racine1;
             const racine1Label = racineLibelle1MappingDB[racine1];
-
-            // Verifiez que la colonne "9-Racine 2" existe
+    
+            rowsFEC[i][labelsFEC.indexOf("7-Racine 1")] = racine1;
+            const libelleRacine1Index = labelsFEC.indexOf("8-Libelle Racine 1");
+            
+            if (libelleRacine1Index !== -1) {
+                rowsFEC[i][libelleRacine1Index] = racine1Label ? replaceSpecial(racine1Label) : "";
+            }
+    
+            const racine2 = compteComptable.substring(0, 2);
+            const racine2Label = racineLibelle2MappingDB[racine2];
             const racine2Index = labelsFEC.indexOf("9-Racine 2");
             if (racine2Index !== -1) {
-              rowsFEC[i][racine2Index] = racine2;
-              const racine2Label = racineLibelle2MappingDB[racine2];
-              if (racine2Label !== undefined) {
-                const racine2LibelleIndex = labelsFEC.indexOf(
-                  "10-Libelle Racine 2"
-                );
-                if (racine2LibelleIndex !== -1) {
-                  rowsFEC[i][racine2LibelleIndex] =
-                    replaceSpecial(racine2Label);
+                rowsFEC[i][racine2Index] = racine2;
+                if (racine2Label !== undefined) {
+                    const racine2LibelleIndex = labelsFEC.indexOf("10-Libelle Racine 2");
+                    if (racine2LibelleIndex !== -1) {
+                        rowsFEC[i][racine2LibelleIndex] = replaceSpecial(racine2Label);
+                    }
                 }
-              }
             }
-
+    
+            const racine3 = compteComptable.substring(0, 3);
+            const racine3Label = racineLibelle3MappingDB[racine3];
             const racine3Index = labelsFEC.indexOf("11-Racine 3");
             if (racine3Index !== -1) {
-              rowsFEC[i][racine3Index] = racine3;
-              const racine3Label = racineLibelle3MappingDB[racine3];
-              if (racine3Label !== undefined) {
-                const racine3LibelleIndex = labelsFEC.indexOf(
-                  "12-Libelle Racine 3"
-                );
-                if (racine3LibelleIndex !== -1) {
-                  rowsFEC[i][racine3LibelleIndex] =
-                    replaceSpecial(racine3Label);
+                rowsFEC[i][racine3Index] = racine3;
+                if (racine3Label !== undefined) {
+                    const racine3LibelleIndex = labelsFEC.indexOf("12-Libelle Racine 3");
+                    if (racine3LibelleIndex !== -1) {
+                        rowsFEC[i][racine3LibelleIndex] = replaceSpecial(racine3Label);
+                    }
                 }
-              }
             }
-
+    
+            const racine4 = compteComptable.substring(0, 4);
+            const racine4Label = racineLibelle4MappingDB[racine4];
             const racine4Index = labelsFEC.indexOf("13-Racine 4");
             if (racine4Index !== -1) {
-              rowsFEC[i][racine4Index] = racine4;
-              const racine4Label = racineLibelle4MappingDB[racine4];
-              if (racine4Label !== undefined) {
-                const racine4LibelleIndex = labelsFEC.indexOf(
-                  "14-Libelle Racine 4"
-                );
-                if (racine4LibelleIndex !== -1) {
-                  rowsFEC[i][racine4LibelleIndex] =
-                    replaceSpecial(racine4Label);
+                rowsFEC[i][racine4Index] = racine4;
+                if (racine4Label !== undefined) {
+                    const racine4LibelleIndex = labelsFEC.indexOf("14-Libelle Racine 4");
+                    if (racine4LibelleIndex !== -1) {
+                        rowsFEC[i][racine4LibelleIndex] = replaceSpecial(racine4Label);
+                    }
                 }
-              }
             }
-
+    
+            const racine5 = compteComptable.substring(0, 5);
+            const racine5Label = racineLibelle5MappingDB[racine5];
             const racine5Index = labelsFEC.indexOf("15-Racine 5");
             if (racine5Index !== -1) {
-              rowsFEC[i][racine5Index] = racine5;
-              const racine5Label = racineLibelle5MappingDB[racine5];
-              if (racine5Label !== undefined) {
-                const racine5LibelleIndex = labelsFEC.indexOf(
-                  "16-Libelle Racine 5"
-                );
-                if (racine5LibelleIndex !== -1) {
-                  rowsFEC[i][racine5LibelleIndex] =
-                    replaceSpecial(racine5Label);
+                rowsFEC[i][racine5Index] = racine5;
+                if (racine5Label !== undefined) {
+                    const racine5LibelleIndex = labelsFEC.indexOf("16-Libelle Racine 5");
+                    if (racine5LibelleIndex !== -1) {
+                        rowsFEC[i][racine5LibelleIndex] = replaceSpecial(racine5Label);
+                    }
                 }
-              }
             }
-          }
         }
-
-        rowsFEC[i][labelsFEC.indexOf("21-Banque")] = "";
         rowsFEC[i][labelsFEC.indexOf("22-Caisse")] = "";
         rowsFEC[i][labelsFEC.indexOf("32-")] = "";
 
@@ -674,7 +699,7 @@ export async function lancerTraitement(req, res) {
         }
         if (
           rowsFEC[i][labelsFEC.indexOf("11-Racine 3")] === "512" &&
-          rowsFEC[i][labelsFEC.indexOf("ournalCode")] !== "RAN"
+          rowsFEC[i][labelsFEC.indexOf("JournalCode")] !== "RAN"
         ) {
           rowsFEC[i][labelsFEC.indexOf("20-Tresorerie")] = "Tresorerie";
         }
@@ -699,7 +724,7 @@ export async function lancerTraitement(req, res) {
 
       const isReportAN = rowsFEC.some((row) =>
         ["RAN", "SAN", "AN", "AND"].includes(
-          row[labelsFEC.indexOf("ournalCode")]
+          row[labelsFEC.indexOf("JournalCode")]
         )
       );
 
@@ -734,13 +759,13 @@ export async function lancerTraitement(req, res) {
 
       for (let i = 1; i < rowsFEC.length; i++) {
         const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
-        const journalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
+        const jJournalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
 
         // Verifier si le compte est un compte fournisseur (401) et n'est pas categorise comme tresorerie
         if (
           compteNum.startsWith("401") &&
           debitCredit[i] === "C" &&
-          !journalCode.startsWith("TRES")
+          !jJournalCode.startsWith("TRES")
         ) {
           isAchat = true;
         }
@@ -757,9 +782,9 @@ export async function lancerTraitement(req, res) {
 
         // Verifier si le journal a un code AC, ACH, FG, etc.
         if (
-          journalCode === "AC" ||
-          journalCode === "ACH" ||
-          journalCode === "FG"
+          jJournalCode === "AC" ||
+          jJournalCode === "ACH" ||
+          jJournalCode === "FG"
         ) {
           isAchat = true;
         }
@@ -774,7 +799,7 @@ export async function lancerTraitement(req, res) {
       let isVente = false;
       for (let i = 1; i < rowsFEC.length; i++) {
         const compteNum = rowsFEC[i][labelsFEC.indexOf("CompteNum")];
-        const journalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
+        const jJournalCode = rowsFEC[i][labelsFEC.indexOf("JournalCode")];
         const debit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Debit")]);
         const credit = parseFloat(rowsFEC[i][labelsFEC.indexOf("Credit")]);
 
@@ -784,7 +809,7 @@ export async function lancerTraitement(req, res) {
             compteNum.startsWith("53") ||
             compteNum.startsWith("Caisse")) &&
           debitCredit[i] === "D" &&
-          !journalCode.startsWith("TRES")
+          !jJournalCode.startsWith("TRES")
         ) {
           isVente = true;
         }
@@ -795,7 +820,7 @@ export async function lancerTraitement(req, res) {
         }
 
         // Verifier si le journal a un code VE, CA, etc.
-        if (journalCode === "VE" || journalCode === "CA") {
+        if (jJournalCode === "VE" || jJournalCode === "CA") {
           isVente = true;
         }
       }
@@ -807,13 +832,13 @@ export async function lancerTraitement(req, res) {
       }
       // }
       for (let i = 1; i < rowsFEC.length; i++) {
-        const racine1 = rowsFEC[i][labelsFEC.indexOf("7-Racine 1")];
-        const racineIndex = labelsFEC.indexOf("8-Libelle Racine 1");
-        const racine2 =
-          racineIndex !== -1 ? rowsFEC[i][racineIndex].slice(0, 2) : "";
+        // const racine1 = rowsFEC[i][labelsFEC.indexOf("7-Racine 1")];
+        // const racineIndex = labelsFEC.indexOf("8-Libelle Racine 1");
+        // const racine2 = racineIndex !== -1 ? rowsFEC[i][racineIndex].slice(0, 2) : "";
+
         // const racine3 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")].slice(0, 3);
 
-        // Verifier si l'ecriture est une operation diverse
+       // Verifier si l'ecriture est une operation diverse
         // if (
         //   racine1 !== "5" && // Exclure les ecritures liees aux ventes
         //   racine1 !== "6" && // Exclure les ecritures liees aux achats
@@ -828,22 +853,29 @@ export async function lancerTraitement(req, res) {
         //     "";
         // }
       }
+      const racine2Index = labelsFEC.indexOf("9-Racine 2");
+      const investissementsIndex = labelsFEC.indexOf("29-Investissements");
+      const banqueIndex = labelsFEC.indexOf("21-Banque");
 
+     
       for (let i = 1; i < rowsFEC.length; i++) {
-        const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")];
-        if (racine2 && racine2.length >= 2) {
-          const racine2Sub = racine2.slice(0, 2);
-          if (racine2Sub >= "20" && racine2Sub <= "27") {
-            rowsFEC[i][labelsFEC.indexOf("29-Investissements")] =
-              "Investissements";
-          } else {
-            rowsFEC[i][labelsFEC.indexOf("29-Investissements")] = "";
-          }
-        } else {
-          rowsFEC[i][labelsFEC.indexOf("29-Investissements")] = "";
-        }
-      }
+          const racine2 = rowsFEC[i][racine2Index];
+          if (racine2 && racine2.length >= 2) {
+              const racine2Sub = racine2.slice(0, 2);
+              if (racine2Sub >= "20" && racine2Sub <= "27") {
+                  console.log(`Ligne ${i}, Racine 2 Sub: ${racine2Sub}`);
+                  console.log(`Ligne ${i}, Remplir Investissements`);
+                  rowsFEC[i][investissementsIndex] = "Investissements";
+                  rowsFEC[i][banqueIndex] = "banque";
 
+              } else {
+                  rowsFEC[i][investissementsIndex] = "";
+              }
+          } else {
+              rowsFEC[i][investissementsIndex] = "";
+          }
+      }
+      
       for (let i = 1; i < rowsFEC.length; i++) {
         const racine2 = rowsFEC[i][labelsFEC.indexOf("9-Racine 2")];
         if (racine2 && racine2.length >= 2) {
